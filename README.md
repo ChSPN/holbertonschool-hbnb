@@ -31,7 +31,9 @@ python main.py
 
 ## Contribution
 Inès OUAZENE
+
 Nathan VERTUEUX
+
 Charlène SCOMPARIN
 
 
