@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import uuid
 
+
 class PlaceRepository(ABC):
     @abstractmethod
     def add_amenity(self, place, amenity) -> bool: pass
@@ -12,4 +13,4 @@ class PlaceRepository(ABC):
     def create(self, place, host) -> bool: pass
 
     @abstractmethod
-    def get_by_host(self, id:uuid) -> list: pass
+    def get_by_host(self, id: uuid) -> list: pass

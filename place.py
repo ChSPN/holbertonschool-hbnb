@@ -9,8 +9,13 @@ from city import City
 from review import Review
 from user import User
 
+
 class Place:
-    def __init__(self, amenity_repository = AmenityRepository or None, place_repository = PlaceRepository or None, user_repository = UserRepository or None, review_repository = ReviewRepository or None):
+    def __init__(self,
+                 amenity_repository=AmenityRepository or None,
+                 place_repository=PlaceRepository or None,
+                 user_repository=UserRepository or None,
+                 review_repository=ReviewRepository or None):
         self._amenity_repository = amenity_repository or None
         self._place_repository = place_repository or None
         self._user_repository = user_repository or None
@@ -36,12 +41,13 @@ class Place:
         if self.amenities and any(a.id == amenity.id for a in self.amenities):
             return False
 
-        if not self._amenity_repository.exist(amenity.id) and not self._amenity_repository.create(amenity):
+        if not self._amenity_repository.exist(amenity.id)
+        and not self._amenity_repository.create(amenity):
             return False
 
         if not self._place_repository.add_amenity(self, amenity):
             return False
-        
+
         if self.amenities:
             self.amenities.append(amenity)
         else:
@@ -52,7 +58,8 @@ class Place:
     def add_customer(self, user):
         """Business logic for adding customer"""
         if not self.customers:
-            self.customers = self._user_repository.get_customers_by_place(self.id)
+            self.customers =
+            self._user_repository.get_customers_by_place(self.id)
 
         if self.customers and any(c.id == user.id for c in self.customers):
             return False
@@ -75,7 +82,8 @@ class Place:
         if not self.reviews:
             self.reviews = self._review_repository.get_by_place(self.id)
 
-        if self.reviews and any(r.customer_id == user.id for r in self.reviews):
+        if self.reviews and
+        any(r.customer_id == user.id for r in self.reviews):
             return False
 
         review = Review()

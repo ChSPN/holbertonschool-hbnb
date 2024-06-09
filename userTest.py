@@ -4,6 +4,7 @@ from userMockRepository import UserMockRepository
 from place import Place
 from user import User
 
+
 class TestUser(unittest.TestCase):
     def test_create_place_success(self):
         placeRepo = PlaceMockRepository(create=True, get_by_host=[])
@@ -27,6 +28,7 @@ class TestUser(unittest.TestCase):
         user = User(PlaceMockRepository(), userRepo)
         user.email = "tt@test.tt"
         self.assertTrue(user.validate_email(), "Email don't exist")
+
 
 if __name__ == '__main__':
     unittest.main()
