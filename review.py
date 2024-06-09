@@ -1,6 +1,7 @@
 from datetime import datetime
 import uuid
 
+
 class Review:
     def __init__(self):
         self.comment = str

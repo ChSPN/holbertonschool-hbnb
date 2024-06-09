@@ -1,5 +1,6 @@
 import uuid
 
+
 class City:
     def __init__(self):
         self.country = None
