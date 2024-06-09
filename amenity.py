@@ -1,6 +1,7 @@
 from datetime import datetime
 import uuid
 
+
 class Amenity:
     def __init__(self):
         self.created_at = datetime.now()

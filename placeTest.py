@@ -9,31 +9,39 @@ from amenityMockRepository import AmenityMockRepository
 from place import Place
 from placeMockRepository import PlaceMockRepository
 
+
 class TestPlace(unittest.TestCase):
     def test_add_amenity_success(self):
         amenityRepo = AmenityMockRepository(True, False, [])
         placeRepo = PlaceMockRepository(add_amenity=True)
-        place = Place(amenity_repository=amenityRepo, place_repository=placeRepo)
-        self.assertTrue(place.add_amenity(Amenity()), "Amenity success created")
+        place = Place(amenity_repository=amenityRepo,
+                      place_repository=placeRepo)
+        self.assertTrue(place.add_amenity(Amenity()),
+                        "Amenity success created")
 
     def test_add_amenity_exist(self):
         amenity = Amenity()
         amenityRepo = AmenityMockRepository(True, False, [amenity])
         placeRepo = PlaceMockRepository(add_amenity=True)
-        place = Place(amenity_repository=amenityRepo, place_repository=placeRepo)
+        place = Place(amenity_repository=amenityRepo,
+                      place_repository=placeRepo)
         self.assertFalse(place.add_amenity(amenity), "Amenity already exist")
 
     def test_add_amenity_failed(self):
         amenityRepo = AmenityMockRepository(False, False, [])
         placeRepo = PlaceMockRepository(add_amenity=True)
-        place = Place(amenity_repository=amenityRepo, place_repository=placeRepo)
-        self.assertFalse(place.add_amenity(Amenity()), "Amenity failed created")
+        place = Place(amenity_repository=amenityRepo,
+                      place_repository=placeRepo)
+        self.assertFalse(place.add_amenity(Amenity()),
+                         "Amenity failed created")
 
     def test_add_amenity_attach(self):
         amenityRepo = AmenityMockRepository(True, False, [])
         placeRepo = PlaceMockRepository(add_amenity=False)
-        place = Place(amenity_repository=amenityRepo, place_repository=placeRepo)
-        self.assertFalse(place.add_amenity(Amenity()), "Amenity success attached")
+        place = Place(amenity_repository=amenityRepo,
+                      place_repository=placeRepo)
+        self.assertFalse(place.add_amenity(Amenity()),
+                         "Amenity success attached")
 
     def test_add_customer_success(self):
         userRepo = UserMockRepository(customers=[])
@@ -72,7 +80,8 @@ class TestPlace(unittest.TestCase):
         place.host = user
         review = Review()
         review.comment = ""
-        self.assertFalse(place.add_review(user, review.comment), "Review not added because host")
+        self.assertFalse(place.add_review(user, review.comment),
+                         "Review not added because host")
 
     def test_add_review_exist(self):
         user = User()
@@ -84,7 +93,8 @@ class TestPlace(unittest.TestCase):
         reviewRepo = ReviewMockRepository(True, [review])
         place = Place(review_repository=reviewRepo)
         place.host_id = uuid.uuid4()
-        self.assertFalse(place.add_review(user, review.comment), "Review not added because exist")
+        self.assertFalse(place.add_review(user, review.comment),
+                         "Review not added because exist")
 
     def test_add_review_failed(self):
         reviewRepo = ReviewMockRepository(False, [])
@@ -93,7 +103,9 @@ class TestPlace(unittest.TestCase):
         place.host_id = uuid.uuid4()
         review = Review()
         review.comment = ""
-        self.assertFalse(place.add_review(user, review.comment), "Review failed added")
+        self.assertFalse(place.add_review(user, review.comment),
+                         "Review failed added")
+
 
 if __name__ == '__main__':
     unittest.main()

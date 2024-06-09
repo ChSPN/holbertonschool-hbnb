@@ -3,8 +3,10 @@ import uuid
 from placeRepository import PlaceRepository
 from userRepository import UserRepository
 
+
 class User:
-    def __init__(self, place_repository = PlaceRepository or None, user_repository = UserRepository or None):
+    def __init__(self, place_repository=PlaceRepository or None,
+                 user_repository=UserRepository or None):
         self._place_repository = place_repository or None
         self._user_repository = user_repository or None
         self.created_at = datetime.now()
@@ -33,7 +35,7 @@ class User:
             self.places.append(place)
         else:
             self.places = [place]
-        
+
         return True
 
     def validate_email(self):
