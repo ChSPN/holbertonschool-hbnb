@@ -11,23 +11,23 @@ from user import User
 
 
 class Place:
-    def __init__(self, amenity_repository = AmenityRepository or None, place_repository = PlaceRepository or None, user_repository = UserRepository or None, review_repository = ReviewRepository or None):
+    def __init__(self, amenity_repository: AmenityRepository = None, place_repository: PlaceRepository = None, user_repository: UserRepository = None, review_repository: ReviewRepository = None):
         self._amenity_repository = amenity_repository or None
         self._place_repository = place_repository or None
         self._user_repository = user_repository or None
         self._review_repository = review_repository or None
-        self.amenities = [] or None
-        self.city = None
-        self.city_id = ""
+        self.amenities:list[Amenity] = None
+        self.city:City = None
+        self.city_id:uuid
         self.created_at = datetime.now()
-        self.customers = [] or None
-        self.description = "" or None
-        self.host = None
-        self.host_id = None
+        self.customers:list[User] = None
+        self.description:str = None
+        self.host:User
+        self.host_id:uuid
         self.id = uuid.uuid4()
-        self.name = ""
-        self.reviews = [] or None
-        self.updated_at = None
+        self.name:str = ""
+        self.reviews:list[Review] = None
+        self.updated_at:datetime = None
 
     def add_amenity(self, amenity: Amenity):
         """Business logic for adding amenity"""

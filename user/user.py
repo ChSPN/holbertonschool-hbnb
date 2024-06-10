@@ -3,20 +3,21 @@ import uuid
 from placeRepository import PlaceRepository
 from userRepository import UserRepository
 
+
 class User:
-    def __init__(self, place_repository = PlaceRepository or None, user_repository = UserRepository or None):
+    def __init__(self, place_repository: PlaceRepository = None, user_repository: UserRepository = None):
         self._place_repository = place_repository or None
         self._user_repository = user_repository or None
         self.created_at = datetime.now()
-        self.email = ""
-        self.first_name = ""
+        self.email:str
+        self.first_name:str
         self.id = uuid.uuid4()
-        self.last_name = ""
-        self.password = ""
-        self.places = [] or None
-        self.customers = [] or None
-        self.reviews = [] or None
-        self.updated_at = None
+        self.last_name:str
+        self.password:str
+        self.places:list = None
+        self.customers:list = None
+        self.reviews:list = None
+        self.updated_at:datetime = None
 
     def create_place(self, place):
         """Business logic for creating place"""
