@@ -47,7 +47,7 @@ La console permet de créer, lire, mettre à jour et supprimer des objets dans l
 ```sh
 python3 -m web_flask.main
 ```
-Le serveur web démarre sur http://0.0.0.0:5000/. Ouvrez un navigateur et naviguez vers cette URL pour accéder à l'interface web.
+Le serveur web démarre sur http://localhost:5000/. Ouvrez un navigateur et naviguez vers cette URL pour accéder à l'interface web.
 
 
 ## Fonctionnalités
