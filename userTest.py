@@ -1,8 +1,8 @@
 import unittest
-from placeMockRepository import PlaceMockRepository
-from userMockRepository import UserMockRepository
-from place import Place
-from user import User
+from entities.place import Place
+from entities.user import User
+from tests.placeMockRepository import PlaceMockRepository
+from tests.userMockRepository import UserMockRepository
 
 
 class TestUser(unittest.TestCase):

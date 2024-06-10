@@ -1,13 +1,13 @@
 import unittest
 import uuid
-from review import Review
-from reviewMockRepository import ReviewMockRepository
-from userMockRepository import UserMockRepository
-from user import User
-from amenity import Amenity
-from amenityMockRepository import AmenityMockRepository
-from place import Place
-from placeMockRepository import PlaceMockRepository
+from entities.review import Review
+from entities.user import User
+from entities.amenity import Amenity
+from entities.place import Place
+from tests.reviewMockRepository import ReviewMockRepository
+from tests.userMockRepository import UserMockRepository
+from tests.amenityMockRepository import AmenityMockRepository
+from tests.placeMockRepository import PlaceMockRepository
 
 
 class TestPlace(unittest.TestCase):
