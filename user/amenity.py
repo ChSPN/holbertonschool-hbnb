@@ -5,8 +5,8 @@ import uuid
 class Amenity:
     def __init__(self):
         self.created_at = datetime.now()
-        self.icon = "" or None
+        self.icon: str = None
         self.id = uuid.uuid4()
-        self.name = ""
-        self.places = [] or None
-        self.updated_at = None
+        self.name:str = ""
+        self.places:list = [] or None
+        self.updated_at:datetime = None
