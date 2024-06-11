@@ -7,6 +7,18 @@ class IAmenityRepository(ABC):
     def create(self, amenity) -> bool: pass
 
     @abstractmethod
+    def update(self, amenity) -> bool: pass
+
+    @abstractmethod
+    def delete(self, amenity_id: uuid) -> bool: pass
+
+    @abstractmethod
+    def get_by_id(self, amenity_id: uuid): pass
+
+    @abstractmethod
+    def get_all(self) -> list: pass
+
+    @abstractmethod
     def exist(self, id: uuid) -> bool: pass
 
     @abstractmethod

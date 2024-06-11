@@ -1,6 +1,5 @@
 import uuid
 from entities.customerPlace import CustomerPlace
-from entities.place import Place
 from entities.user import User
 from managers.iPersistenceManager import IPersistenceManager
 from repositories.iUserRepository import IUserRepository
@@ -11,16 +10,20 @@ class UserPersistentRepository(IUserRepository):
         super().__init__()
         self._persistenceManager = persistenceManager
 
-    def exist(self, email: str) -> bool:
-        try:
-            users = self._persistenceManager.get_all(User)
-            if not users
-            or not any(user for user in users if user.email == email):
-                return False
-            else:
-                return True
-        except Exception:
-            return False
+    def create(self, user) -> bool:
+        return self._persistenceManager.save(user)
+
+    def update(self, user) -> bool:
+        return self._persistenceManager.update(user)
+
+    def delete(self, user_id: uuid) -> bool:
+        return self._persistenceManager.delete(user_id, User)
+
+    def get_by_id(self, user_id: uuid):
+        return self._persistenceManager.get(user_id, User)
+
+    def get_all(self) -> list:
+        return self._persistenceManager.get_all(User)
 
     def get_customers_by_place(self, id: uuid) -> list:
         try:
@@ -39,5 +42,26 @@ class UserPersistentRepository(IUserRepository):
         except Exception:
             return []
 
-    def get_by_id(self, id: uuid):
-        return self._persistenceManager.get(id, User)
+    def get_by_email(self, email: str):
+        try:
+            users = self._persistenceManager.get_all(User)
+            if not users:
+                return None
+            else:
+                users = [user for user in users if user.email == email]
+                if not users:
+                    return None
+                else:
+                    return users[0]
+        except Exception:
+            return False
+
+    def exist(self, id: uuid) -> bool:
+        try:
+            entity = self._persistenceManager.get(id, User)
+            if not entity:
+                return False
+            else:
+                return True
+        except Exception:
+            return False
