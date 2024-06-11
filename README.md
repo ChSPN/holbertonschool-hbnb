@@ -20,7 +20,7 @@ Bienvenue dans la première étape de notre passionnant voyage - la création de
 - *Couche de logique métier* : C'est là que se déroulent tous les traitements et les prises de décision.
 - *Couche de persistance* : Pour l'instant, c'est notre humble système de fichiers, mais nous passerons à une base de données à l'avenir.
 ### UML
-![UML du projet HBnB](https://github.com/ChSPN/holbertonschool-hbnb/blob/main/HBnB_uml2.png "UML du projet HBnB")
+![UML du projet HBnB](https://github.com/ChSPN/holbertonschool-hbnb/blob/edc192382095ab3be661b9d5576bcf199b93cade/HBnB_uml2.png "UML du projet HBnB")
 
 
 ## Installation
