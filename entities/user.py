@@ -27,7 +27,9 @@ class User:
         if self.places and any(p.id == place.id for p in self.places):
             return False
 
-        if not self._place_repository.create(place, self):
+        place.host_id = self.id
+        place.host = self
+        if not self._place_repository.create(place):
             return False
 
         if self.places:
@@ -39,4 +41,4 @@ class User:
 
     def validate_email(self):
         """Business logic for validating email"""
-        return not self._user_repository.exist(self.email)
+        return not self._user_repository.get_by_email(self.email)

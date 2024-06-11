@@ -18,7 +18,7 @@ class TestUser(unittest.TestCase):
         self.assertFalse(user.create_place(place), "Place already exist")
 
     def test_email_invalid(self):
-        userRepo = UserMockRepository("test@test.tt")
+        userRepo = UserMockRepository(get_by_email=User())
         user = User(PlaceMockRepository(), userRepo)
         user.email = "test@test.tt"
         self.assertFalse(user.validate_email(), "Email exist")
