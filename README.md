@@ -71,11 +71,7 @@ python3 -m unittest discover tests
 Les tests sont organisés dans le dossier tests/ et couvrent différentes parties de l'application.
 
 
-## Contributeurs
-Inès OUAZENE
-
-Nathan VERTUEUX
-
+## Contributeur
 Charlène SCOMPARIN
 
 
