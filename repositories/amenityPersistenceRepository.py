@@ -1,6 +1,7 @@
 import uuid
 from entities.amenityPlace import AmenityPlace
 from entities.amenity import Amenity
+from entities.place import Place
 from iAmenityRepository import IAmenityRepository
 from managers.iPersistenceManager import IPersistenceManager
 
@@ -12,6 +13,18 @@ class AmenityPersistentRepository(IAmenityRepository):
 
     def create(self, amenity) -> bool:
         return self._persistenceManager.save(amenity)
+
+    def update(self, amenity) -> bool:
+        return self._persistenceManager.update(amenity)
+
+    def delete(self, amenity_id: uuid) -> bool:
+        return self._persistenceManager.delete(amenity_id, Amenity)
+
+    def get_by_id(self, amenity_id: uuid):
+        return self._persistenceManager.get(amenity_id, Amenity)
+
+    def get_all(self) -> list:
+        return self._persistenceManager.get_all(Amenity)
 
     def exist(self, id: uuid) -> bool:
         try:
