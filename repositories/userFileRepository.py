@@ -1,14 +1,14 @@
 import uuid
 from entities.customerPlace import CustomerPlace
 from entities.user import User
-from managers.iPersistenceManager import IPersistenceManager
+from managers.persistenceFileManager import PersistenceFileManager
 from repositories.iUserRepository import IUserRepository
 
 
-class UserPersistentRepository(IUserRepository):
-    def __init__(self, persistenceManager: IPersistenceManager):
+class UserFileRepository(IUserRepository):
+    def __init__(self):
         super().__init__()
-        self._persistenceManager = persistenceManager
+        self._persistenceManager = PersistenceFileManager()
 
     def create(self, user) -> bool:
         return self._persistenceManager.save(user)

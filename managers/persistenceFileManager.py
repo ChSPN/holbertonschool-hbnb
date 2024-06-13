@@ -2,10 +2,9 @@ import json
 import os
 from managers.jsonDecoder import JsonDecoder
 from managers.jsonEncoder import JsonEncoder
-from iPersistenceManager import IPersistenceManager
 
 
-class PersistenceFileManager(IPersistenceManager):
+class PersistenceFileManager():
     def __get_file_contents(self, name):
         if os.path.isfile(f'datas/{name}.json'):
             with open(f'datas/{name}.json', 'r') as file:

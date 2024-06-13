@@ -10,4 +10,4 @@ class JsonEncoder(JSONEncoder):
         elif isinstance(o, datetime.datetime):
             return o.isoformat()
         else :
-            return o.__dict__
+            return o.to_dict()

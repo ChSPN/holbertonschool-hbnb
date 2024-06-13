@@ -1,13 +1,13 @@
 import uuid
 from entities.review import Review
-from managers.iPersistenceManager import IPersistenceManager
+from managers.persistenceFileManager import PersistenceFileManager
 from repositories.iReviewRepository import IReviewRepository
 
 
-class ReviewPersistentRepository(IReviewRepository):
-    def __init__(self, persistenceManager: IPersistenceManager):
+class ReviewFileRepository(IReviewRepository):
+    def __init__(self):
         super().__init__()
-        self._persistenceManager = persistenceManager
+        self._persistenceManager = PersistenceFileManager()
 
     def create(self, review) -> bool:
         return self._persistenceManager.save(review)

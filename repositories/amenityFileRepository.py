@@ -1,15 +1,14 @@
 import uuid
 from entities.amenityPlace import AmenityPlace
 from entities.amenity import Amenity
-from entities.place import Place
 from iAmenityRepository import IAmenityRepository
-from managers.iPersistenceManager import IPersistenceManager
+from managers.persistenceFileManager import PersistenceFileManager
 
 
-class AmenityPersistentRepository(IAmenityRepository):
-    def __init__(self, persistenceManager: IPersistenceManager):
+class AmenityFileRepository(IAmenityRepository):
+    def __init__(self):
         super().__init__()
-        self._persistenceManager = persistenceManager
+        self._persistenceManager = PersistenceFileManager()
 
     def create(self, amenity) -> bool:
         return self._persistenceManager.save(amenity)
