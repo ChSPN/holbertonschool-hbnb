@@ -1,11 +1,11 @@
 from datetime import datetime
 import uuid
-from repositories.iAmenityRepository import IAmenityRepository
+from managers.iRepositoryManager import IRepositoryManager
 
 
 class Amenity:
-    def __init__(self, repo: IAmenityRepository = None):
-        self._repo = repo or None
+    def __init__(self, manager: IRepositoryManager = None):
+        self._repo = None if manager is None else manager.amenityRepository()
         self.created_at = datetime.now()
         self.icon: str = None
         self.id = uuid.uuid4()
@@ -13,10 +13,27 @@ class Amenity:
         self.places:list = None
         self.updated_at:datetime = None
 
+    @staticmethod
+    def load(manager: IRepositoryManager, id: uuid = None):
+        repo = manager.amenityRepository()
+        if id is None:
+            return repo.get_all()
+        else:
+            return repo.get_by_id(id)
+
+    def to_dict(self):
+        return {
+            'created_at': self.created_at,
+            'icon': self.icon,
+            'id': self.id,
+            'name': self.name,
+            'updated_at': self.updated_at,
+        }
+
+    def delete(self) -> bool:
+        return self._repo.delete(self.id)
+
     def save(self) -> bool:
-        if (not self._repo):
-            return False
-        
         if (not self.name):
             return False
         

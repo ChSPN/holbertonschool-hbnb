@@ -1,13 +1,12 @@
 from datetime import datetime
 import uuid
-from repositories.iPlaceRepository import IPlaceRepository
-from repositories.iUserRepository import IUserRepository
+from managers.iRepositoryManager import IRepositoryManager
 
 
 class User:
-    def __init__(self, place_repository: IPlaceRepository = None, user_repository: IUserRepository = None):
-        self._place_repository = place_repository or None
-        self._user_repository = user_repository or None
+    def __init__(self, manager: IRepositoryManager = None):
+        self._place_repository = None if manager is None else manager.placeRepository()
+        self._user_repository = None if manager is None else manager.userRepository()
         self.created_at = datetime.now()
         self.email:str
         self.first_name:str
@@ -19,25 +18,16 @@ class User:
         self.reviews:list = None
         self.updated_at:datetime = None
 
-    def create_place(self, place):
-        """Business logic for creating place"""
-        if not self.places:
-            self.places = self._place_repository.get_by_host(self.id)
-
-        if self.places and any(p.id == place.id for p in self.places):
-            return False
-
-        place.host_id = self.id
-        place.host = self
-        if not self._place_repository.create(place):
-            return False
-
-        if self.places:
-            self.places.append(place)
-        else:
-            self.places = [place]
-        
-        return True
+    def to_dict(self):
+        return {
+            'created_at': self.created_at,
+            'email': self.email,
+            'first_name': self.first_name,
+            'id': self.id,
+            'last_name': self.last_name,
+            'password': self.password,
+            'updated_at': self.updated_at,
+        }
 
     def validate_email(self):
         """Business logic for validating email"""
