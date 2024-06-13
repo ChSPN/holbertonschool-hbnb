@@ -2,14 +2,14 @@ import uuid
 from entities.amenityPlace import AmenityPlace
 from entities.customerPlace import CustomerPlace
 from entities.place import Place
-from managers.iPersistenceManager import IPersistenceManager
+from managers.persistenceFileManager import PersistenceFileManager
 from repositories.iPlaceRepository import IPlaceRepository
 
 
-class PlacePersistentRepository(IPlaceRepository):
-    def __init__(self, persistenceManager: IPersistenceManager):
+class PlaceFileRepository(IPlaceRepository):
+    def __init__(self):
         super().__init__()
-        self._persistenceManager = persistenceManager
+        self._persistenceManager = PersistenceFileManager()
 
     def add_amenity(self, place, amenity) -> bool:
         try:

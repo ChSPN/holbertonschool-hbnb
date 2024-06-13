@@ -14,3 +14,13 @@ class Review:
         self.place_id:uuid
         """Foreign key of place"""
         self.updated_at:datetime = None
+
+    def to_dict(self):
+        return {
+            'comment': self.comment,
+            'created_at': self.created_at,
+            'customer_id': self.customer_id,
+            'id': self.id,
+            'place_id': self.place_id,
+            'updated_at': self.updated_at,
+        }

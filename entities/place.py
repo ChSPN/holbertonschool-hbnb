@@ -1,9 +1,6 @@
 from datetime import datetime
 import uuid
-from repositories.iAmenityRepository import IAmenityRepository
-from repositories.iPlaceRepository import IPlaceRepository
-from repositories.iUserRepository import IUserRepository
-from repositories.iReviewRepository import IReviewRepository
+from managers.iRepositoryManager import IRepositoryManager
 from entities.amenity import Amenity
 from entities.city import City
 from entities.review import Review
@@ -11,11 +8,11 @@ from entities.user import User
 
 
 class Place:
-    def __init__(self, amenity_repository: IAmenityRepository = None, place_repository: IPlaceRepository = None, user_repository: IUserRepository = None, review_repository: IReviewRepository = None):
-        self._amenity_repository = amenity_repository or None
-        self._place_repository = place_repository or None
-        self._user_repository = user_repository or None
-        self._review_repository = review_repository or None
+    def __init__(self, manager: IRepositoryManager = None):
+        self._amenity_repository = None if manager is None else manager.amenityRepository()
+        self._place_repository = None if manager is None else manager.placeRepository()
+        self._user_repository = None if manager is None else manager.userRepository()
+        self._review_repository = None if manager is None else manager.reviewRepository()
         self.amenities:list[Amenity] = None
         self.city:City = None
         self.city_id:uuid
@@ -28,6 +25,17 @@ class Place:
         self.name:str
         self.reviews:list[Review] = None
         self.updated_at:datetime = None
+
+    def to_dict(self):
+        return {
+            'city_id': self.city_id,
+            'created_at': self.created_at,
+            'description': self.description,
+            'host_id': self.host_id,
+            'id': self.id,
+            'name': self.name,
+            'updated_at': self.updated_at,
+        }
 
     def add_amenity(self, amenity: Amenity):
         """Business logic for adding amenity"""
@@ -94,4 +102,16 @@ class Place:
         else:
             self.reviews = [review]
 
+        return True
+
+    def create(self, user):
+        """Business logic for creating place"""
+        if not self._user_repository.exist(user.id):
+            return False
+
+        self.host_id = user.id
+        self.host = user
+        if not self._place_repository.create(self):
+            return False
+        
         return True
