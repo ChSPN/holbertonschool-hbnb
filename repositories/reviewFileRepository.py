@@ -20,6 +20,26 @@ class ReviewFileRepository(IReviewRepository):
 
     def get_by_id(self, review_id: uuid):
         return self._persistenceManager.get(review_id, Review)
+    
+    def get_by_customer(self, customer_id: uuid):
+        try:
+            reviews = self._persistenceManager.get_all(Review)
+            if not reviews:
+                return []
+            else:
+                return [review for review in reviews if review.customer_id == customer_id]
+        except Exception:
+            return []
+    
+    def get_by_place(self, place_id: uuid):
+        try:
+            reviews = self._persistenceManager.get_all(Review)
+            if not reviews:
+                return []
+            else:
+                return [review for review in reviews if review.place_id == place_id]
+        except Exception:
+            return []
 
     def get_all(self) -> list:
         return self._persistenceManager.get_all(Review)

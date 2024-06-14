@@ -25,12 +25,6 @@ class PlaceMockRepository(IPlaceRepository):
         self._get_all = get_all or None
         self._exist = exist or None
 
-    def add_amenity(self, place, amenity) -> bool:
-        return self._add_amenity
-
-    def add_customer(self, place, customer) -> bool:
-        return self._add_customer
-
     def create(self, place) -> bool:
         return self._create
 

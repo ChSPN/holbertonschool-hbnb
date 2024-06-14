@@ -4,12 +4,6 @@ import uuid
 
 class IPlaceRepository(ABC):
     @abstractmethod
-    def add_amenity(self, place, amenity) -> bool: pass
-
-    @abstractmethod
-    def add_customer(self, place, customer) -> bool: pass
-
-    @abstractmethod
     def create(self, place) -> bool: pass
 
     @abstractmethod

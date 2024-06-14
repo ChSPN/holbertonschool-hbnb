@@ -1,6 +1,4 @@
 import uuid
-from entities.amenityPlace import AmenityPlace
-from entities.customerPlace import CustomerPlace
 from entities.place import Place
 from managers.persistenceFileManager import PersistenceFileManager
 from repositories.iPlaceRepository import IPlaceRepository
@@ -10,33 +8,6 @@ class PlaceFileRepository(IPlaceRepository):
     def __init__(self):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()
-
-    def add_amenity(self, place, amenity) -> bool:
-        try:
-            amenities_places = self._persistenceManager.get_all(AmenityPlace)
-            if amenities_places and any(amenity for amenity in amenities_places
-                                        if amenity.place_id == id
-                                        and amenity.amenity_id == amenity.id):
-                return False
-            else:
-                return self._persistenceManager.save(
-                    AmenityPlace(place_id=place.id, amenity_id=amenity.id))
-        except Exception:
-            return False
-
-    def add_customer(self, place, customer) -> bool:
-        try:
-            customer_places = self._persistenceManager.get_all(CustomerPlace)
-            if customer_places and any(customer for customer in
-                                       customer_places if
-                                       customer.place_id == id
-                                       and customer.user_id == customer.id):
-                return False
-            else:
-                return self._persistenceManager.save(
-                    CustomerPlace(place_id=place.id, user_id=customer.id))
-        except Exception:
-            return False
 
     def create(self, place) -> bool:
         return self._persistenceManager.save(place)
