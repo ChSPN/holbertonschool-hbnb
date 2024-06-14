@@ -3,32 +3,26 @@ from managers.iRepositoryManager import IRepositoryManager
 from repositories.amenityFileRepository import AmenityFileRepository
 from repositories.cityFileRepository import CityFileRepository
 from repositories.countryFileRepository import CountryFileRepository
-from repositories.iAmenityRepository import IAmenityRepository
-from repositories.iCityRepository import ICityRepository
-from repositories.iCountryRepository import ICountryRepository
-from repositories.iPlaceRepository import IPlaceRepository
-from repositories.iReviewRepository import IReviewRepository
-from repositories.iUserRepository import IUserRepository
 from repositories.placeFileRepository import PlaceFileRepository
 from repositories.reviewFileRepository import ReviewFileRepository
 from repositories.userFileRepository import UserFileRepository
 
 
 class RepositoryFileManager(IRepositoryManager):
-    def amenityRepository(self) -> IAmenityRepository:
+    def amenityRepository(self):
         return AmenityFileRepository()
 
-    def placeRepository(self) -> IPlaceRepository:
+    def placeRepository(self):
         return PlaceFileRepository()
 
-    def reviewRepository(self) -> IReviewRepository:
+    def reviewRepository(self):
         return ReviewFileRepository()
 
-    def userRepository(self) -> IUserRepository:
-        return UserFileRepository()
+    def userRepository(self):
+        return UserFileRepository(self)
 
-    def countryRepository(self) -> ICountryRepository:
+    def countryRepository(self):
         return CountryFileRepository()
 
-    def cityRepository(self) -> ICityRepository:
+    def cityRepository(self):
         return CityFileRepository()
