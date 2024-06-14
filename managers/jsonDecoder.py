@@ -11,11 +11,14 @@ class JsonDecoder(JSONDecoder):
         for key, value in obj.items():
             if isinstance(value, str):
                 try:
-                    obj[key] = datetime.fromisoformat(value)
+                    temp = datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+                    obj[key] = temp
                 except ValueError:
-                    pass
-                try:
-                    obj[key] = uuid.UUID(value)
-                except ValueError:
-                    pass
+                    try:
+                        temp = uuid.UUID(value)
+                        obj[key] = temp
+                    except ValueError:
+                        pass
+            else:
+                obj[key] = value
         return obj

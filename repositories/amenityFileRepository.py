@@ -1,6 +1,6 @@
 import uuid
 from entities.amenity import Amenity
-from iAmenityRepository import IAmenityRepository
+from repositories.iAmenityRepository import IAmenityRepository
 from managers.persistenceFileManager import PersistenceFileManager
 
 
