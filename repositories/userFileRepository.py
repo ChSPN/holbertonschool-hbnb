@@ -1,14 +1,15 @@
 import uuid
-from entities.customerPlace import CustomerPlace
 from entities.user import User
+from managers.iRepositoryManager import IRepositoryManager
 from managers.persistenceFileManager import PersistenceFileManager
 from repositories.iUserRepository import IUserRepository
 
 
 class UserFileRepository(IUserRepository):
-    def __init__(self):
+    def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()
+        self._repositoryManager = repositoryManager
 
     def create(self, user) -> bool:
         return self._persistenceManager.save(user)
@@ -20,10 +21,18 @@ class UserFileRepository(IUserRepository):
         return self._persistenceManager.delete(user_id, User)
 
     def get_by_id(self, user_id: uuid):
-        return self._persistenceManager.get(user_id, User)
+        user = self._persistenceManager.get(user_id, User)
+        if not user:
+            return None
+        else:
+            return User(self._repositoryManager, user)
 
     def get_all(self) -> list:
-        return self._persistenceManager.get_all(User)
+        users = self._persistenceManager.get_all(User)
+        if not users:
+            return []
+        else: 
+            return [User(self._repositoryManager, user) for user in users]
 
     def get_by_email(self, email: str):
         try:
@@ -31,13 +40,13 @@ class UserFileRepository(IUserRepository):
             if not users:
                 return None
             else:
-                users = [user for user in users if user.email == email]
-                if not users:
+                users = [user for user in users if user.get('email') == email]
+                if not users or len(users) == 0:
                     return None
                 else:
-                    return users[0]
+                    return User(self._repositoryManager, users[0])
         except Exception:
-            return False
+            return None
 
     def exist(self, id: uuid) -> bool:
         try:
