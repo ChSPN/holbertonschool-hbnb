@@ -7,11 +7,18 @@ class Amenity:
     def __init__(self, manager: IRepositoryManager = None):
         self._repo = None if manager is None else manager.amenityRepository()
         self.created_at = datetime.now()
-        self.icon: str = None
         self.id = uuid.uuid4()
         self.name:str
         self.places:list = None
         self.updated_at:datetime = None
+
+    def to_dict(self):
+        return {
+            'created_at': self.created_at,
+            'id': self.id,
+            'name': self.name,
+            'updated_at': self.updated_at,
+        }
 
     @staticmethod
     def load(manager: IRepositoryManager, id: uuid = None):
@@ -21,20 +28,14 @@ class Amenity:
         else:
             return repo.get_by_id(id)
 
-    def to_dict(self):
-        return {
-            'created_at': self.created_at,
-            'icon': self.icon,
-            'id': self.id,
-            'name': self.name,
-            'updated_at': self.updated_at,
-        }
-
     def delete(self) -> bool:
+        if (not self._repo):
+            return False
+
         return self._repo.delete(self.id)
 
     def save(self) -> bool:
-        if (not self.name):
+        if (not self._repo or not self.name):
             return False
         
         if (self._repo.exist(self.id)):

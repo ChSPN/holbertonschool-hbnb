@@ -1,5 +1,4 @@
 import uuid
-from entities.amenityPlace import AmenityPlace
 from entities.amenity import Amenity
 from iAmenityRepository import IAmenityRepository
 from managers.persistenceFileManager import PersistenceFileManager
@@ -37,17 +36,15 @@ class AmenityFileRepository(IAmenityRepository):
 
     def get_by_place(self, id: uuid) -> list:
         try:
-            amenities_places = self._persistenceManager.get_all(AmenityPlace)
-            if not amenities_places:
+            place = self.get_by_id(id)
+            if not place:
                 return []
             else:
-                amenitiesId = [amenity.amenity_id for amenity in
-                               amenities_places if amenity.place_id == id]
                 amenities = self._persistenceManager.get_all(Amenity)
-                if not amenities:
+                if not amenities or not place.amenity_ids:
                     return []
                 else:
                     return [amenity for amenity in amenities
-                            if amenity.id in amenitiesId]
+                            if amenity.id in place.amenity_ids]
         except Exception:
             return []
