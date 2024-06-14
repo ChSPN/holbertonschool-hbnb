@@ -19,9 +19,6 @@ class IUserRepository(ABC):
     def get_all(self) -> list: pass
 
     @abstractmethod
-    def get_customers_by_place(self, id: uuid) -> list: pass
-
-    @abstractmethod
     def get_by_email(self, email: str): pass
 
     @abstractmethod

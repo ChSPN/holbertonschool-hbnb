@@ -16,6 +16,12 @@ class IReviewRepository(ABC):
     def get_by_id(self, review_id: uuid): pass
 
     @abstractmethod
+    def get_by_customer(self, user_id: uuid): pass
+
+    @abstractmethod
+    def get_by_place(self, place_id: uuid): pass
+
+    @abstractmethod
     def get_all(self) -> list: pass
 
     @abstractmethod

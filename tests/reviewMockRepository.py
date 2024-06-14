@@ -11,6 +11,7 @@ class ReviewMockRepository(IReviewRepository):
                  delete:bool = None,
                  get_by_id:Review = None,
                  get_all:list[Review] = None, 
+                 get_by_customer:list[Review] = None, 
                  exist=bool or None):
         super().__init__()
         self._create = create
@@ -19,6 +20,7 @@ class ReviewMockRepository(IReviewRepository):
         self._delete = delete or None
         self._get_by_id = get_by_id or None
         self._get_all = get_all or None
+        self._get_by_customer = get_by_customer or None
         self._exist = exist or None
 
     def create(self, review: Review) -> bool:
@@ -36,6 +38,9 @@ class ReviewMockRepository(IReviewRepository):
     def get_by_id(self, review_id: uuid) -> Review:
         return self._get_by_id
 
+    def get_by_customer(self, user_id: uuid):
+        return self._get_by_customer
+    
     def get_all(self) -> list[Review]:
         return self._get_all
 

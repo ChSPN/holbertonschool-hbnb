@@ -25,23 +25,6 @@ class UserFileRepository(IUserRepository):
     def get_all(self) -> list:
         return self._persistenceManager.get_all(User)
 
-    def get_customers_by_place(self, id: uuid) -> list:
-        try:
-            customers_places = self._persistenceManager.get_all(CustomerPlace)
-            if not customers_places:
-                return []
-            else:
-                customersId = [customer.user_id for customer
-                               in customers_places if customer.place_id == id]
-                customers = self._persistenceManager.get_all(User)
-                if not customers:
-                    return []
-                else:
-                    return [customer for customer
-                            in customers if customer.id in customersId]
-        except Exception:
-            return []
-
     def get_by_email(self, email: str):
         try:
             users = self._persistenceManager.get_all(User)
