@@ -1,13 +1,15 @@
 import uuid
 from entities.place import Place
+from managers.iRepositoryManager import IRepositoryManager
 from managers.persistenceFileManager import PersistenceFileManager
 from repositories.iPlaceRepository import IPlaceRepository
 
 
 class PlaceFileRepository(IPlaceRepository):
-    def __init__(self):
+    def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()
+        self._repositoryManager = repositoryManager
 
     def create(self, place) -> bool:
         return self._persistenceManager.save(place)
@@ -19,10 +21,18 @@ class PlaceFileRepository(IPlaceRepository):
         return self._persistenceManager.delete(place_id, Place)
 
     def get_by_id(self, place_id: uuid) -> Place:
-        return self._persistenceManager.get(place_id, Place)
+        place = self._persistenceManager.get(place_id, Place)
+        if not place:
+            return None
+        else:
+            return Place(self._repositoryManager, place)
 
     def get_all(self) -> list:
-        return self._persistenceManager.get_all(Place)
+        places = self._persistenceManager.get_all(Place)
+        if not places:
+            return []
+        else: 
+            return [Place(self._repositoryManager, place) for place in places]
 
     def get_by_host(self, id: uuid) -> list:
         try:
@@ -30,7 +40,7 @@ class PlaceFileRepository(IPlaceRepository):
             if not places:
                 return []
             else:
-                return [place for place in places if places.host_id in id]
+                return [Place(self._repositoryManager, place) for place in places if place.get('host_id') == id]
         except Exception:
             return []
 

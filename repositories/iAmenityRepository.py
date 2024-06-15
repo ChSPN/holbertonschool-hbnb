@@ -22,4 +22,7 @@ class IAmenityRepository(ABC):
     def exist(self, id: uuid, name: str = None) -> bool: pass
 
     @abstractmethod
+    def exists(self, ids: list) -> bool: pass
+
+    @abstractmethod
     def get_by_place(self, id: uuid) -> list: pass
