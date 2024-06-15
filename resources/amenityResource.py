@@ -61,7 +61,7 @@ class AmenityResource(Resource):
     def put(self, id):
         amenity = Amenity.load(self._manager, id)
         if not amenity:
-            return 'User not found', 404
+            return 'Amenity not found', 404
 
         amenity.parse(self.api.payload)
         if amenity.exist(self.api.payload['name'] if self.api.payload and 'name' in self.api.payload else None):

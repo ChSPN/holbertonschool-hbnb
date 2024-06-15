@@ -50,6 +50,16 @@ class AmenityFileRepository(IAmenityRepository):
                     return any(amenity.get('id') != id and amenity.get('name') == name for amenity in amenities)
         except Exception:
             return False
+        
+    def exists(self, ids: list) -> bool:
+        try:
+            amenities = self._persistenceManager.get_all(Amenity)
+            if not amenities or len(amenities) == 0:
+                return False
+            else:
+                return all(amenity.get('id') in ids for amenity in amenities)
+        except Exception:
+            return False
 
     def get_by_place(self, id: uuid) -> list:
         try:
