@@ -15,7 +15,7 @@ class RepositoryFileManager(IRepositoryManager):
         return PlaceFileRepository(self)
 
     def reviewRepository(self):
-        return ReviewFileRepository()
+        return ReviewFileRepository(self)
 
     def userRepository(self):
         return UserFileRepository(self)

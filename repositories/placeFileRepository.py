@@ -40,7 +40,8 @@ class PlaceFileRepository(IPlaceRepository):
             if not places:
                 return []
             else:
-                return [Place(self._repositoryManager, place) for place in places if place.get('host_id') == id]
+                return [Place(self._repositoryManager, place) for place in places 
+                        if str(place.get('host_id')) == str(id)]
         except Exception:
             return []
 

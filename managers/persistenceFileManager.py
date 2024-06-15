@@ -36,7 +36,7 @@ class PersistenceFileManager():
             if not entities:
                 return None
             else:
-                entities = [n for n in entities if n.get('id') == entity_id]
+                entities = [n for n in entities if str(n.get('id')) == str(entity_id)]
                 if not entities or len(entities) == 0:
                     return None
                 else:
@@ -62,7 +62,7 @@ class PersistenceFileManager():
             if not entities:
                 entities = [entity]
             else:
-                entities = [n for n in entities if n.get('id') != entity.id]
+                entities = [n for n in entities if str(n.get('id')) != str(entity.id)]
                 if not entities or len(entities) == 0:
                     entities = [entity]
                 else:
@@ -79,7 +79,7 @@ class PersistenceFileManager():
             if not entities:
                 return False
             else:
-                entities = [n for n in entities if n.get('id') != entity_id]
+                entities = [n for n in entities if str(n.get('id')) != str(entity_id)]
                 self.__put_file_contents(name, entities)
                 return True
         except Exception:

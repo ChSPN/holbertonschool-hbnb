@@ -2,10 +2,6 @@ from datetime import datetime
 import uuid
 import tzlocal
 from managers.iRepositoryManager import IRepositoryManager
-from entities.amenity import Amenity
-from entities.city import City
-from entities.review import Review
-from entities.user import User
 
 
 class Place:
@@ -30,10 +26,6 @@ class Place:
         self.amenity_ids:list = None
         self.host_id:uuid
         self.city_id:uuid
-        self.city:City = None
-        self.host:User
-        self.reviews:list[Review] = None
-        self.amenities:list[Amenity] = None
         self.parse(place)
 
     def to_dict(self):
@@ -71,7 +63,7 @@ class Place:
         if place and 'updated_at' in place:
             self.updated_at = place['updated_at']
         self.description = place['description'] if place and 'description' in place else None
-        self.name = place['email'] if place and 'email' in place else None
+        self.name = place['name'] if place and 'name' in place else None
         self.address = place['address'] if place and 'address' in place else None
         self.number_of_rooms = place['number_of_rooms'] if place and 'number_of_rooms' in place else None
         self.number_of_bathrooms = place['number_of_bathrooms'] if place and 'number_of_bathrooms' in place else None
@@ -87,59 +79,6 @@ class Place:
         self.city_id:uuid = place['city_id'] if place and 'city_id' in place else None
         if self.city_id is str:
             self.city_id = uuid.UUID(self.city_id)
-
-    def add_amenity(self, amenity: Amenity):
-        """Business logic for adding amenity"""
-        if not self.amenities:
-            self.amenities = self._amenity_repository.get_by_place(self.id)
-
-        if self.amenities and any(a.id == amenity.id for a in self.amenities):
-            return False
-
-        if not self._amenity_repository.exist(amenity.id) and not self._amenity_repository.create(amenity):
-            return False
-
-        if self.amenity_ids:
-            self.amenity_ids.append(amenity)
-        else:
-            self.amenity_ids = [amenity.id]
-        
-        if self.amenities:
-            self.amenities.append(amenity)
-        else:
-            self.amenities = [amenity]
-
-        return self.save()
-
-    def add_review(self, user_id, comment: str):
-        """Business logic for adding review"""
-        if self.host_id == user_id:
-            return False
-        
-        if not self._user_repository.exist(user_id):
-            return False
-
-        if not self.reviews:
-            self.reviews = self._review_repository.get_by_place(self.id)
-
-        if self.reviews and any(r.customer_id == user_id for r in self.reviews):
-            return False
-
-        review = Review()
-        review.comment = comment
-        review.customer_id = user_id
-        review.place_id = self.id
-        review.place = self
-
-        if not self._review_repository.create(review):
-            return False
-
-        if self.reviews:
-            self.reviews.append(review)
-        else:
-            self.reviews = [review]
-
-        return True
 
     def delete(self) -> bool:
         if (not self._place_repository):
@@ -159,7 +98,7 @@ class Place:
             or not self.city_id):
             return False
         
-        if (not isinstance(self.price_per_night, float)
+        if (not isinstance(self.price_per_night, (int, float))
             or not self.max_guests > 0
             or not self.number_of_rooms > 0
             or not self.number_of_bathrooms > 0):

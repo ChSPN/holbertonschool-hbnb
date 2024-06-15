@@ -11,7 +11,6 @@ class Amenity:
         self.created_at:datetime = datetime.now(tzlocal.get_localzone())
         self.updated_at:datetime = None
         self.name:str
-        self.places:list = None
         self.parse(amenity)
 
     def to_dict(self):
