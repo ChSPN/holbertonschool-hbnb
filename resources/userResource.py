@@ -26,7 +26,7 @@ class UserListResource(Resource):
         return User.load(self._manager)
 
     @ns.doc(description='Create a new user')
-    @ns.expect(user, validate=True)
+    @ns.expect(user)
     @ns.response(201, 'User created')
     @ns.response(409, 'Invalid email')
     @ns.response(400, 'User not created')
@@ -56,7 +56,7 @@ class UserResource(Resource):
             return 'User not found', 404
 
     @ns.doc(description='Update user by id')
-    @ns.expect(user, validate=True)
+    @ns.expect(user)
     @ns.response(201, 'User updated')
     @ns.response(409, 'Invalid email')
     @ns.response(404, 'User not found')
@@ -66,10 +66,7 @@ class UserResource(Resource):
         if not user:
             return 'User not found', 404
 
-        user.email = self.api.payload['email']
-        user.first_name = self.api.payload['first_name']
-        user.last_name = self.api.payload['last_name']
-        user.password = self.api.payload['password']
+        user.parse(self.api.payload)
         if not user.validate_email():
             return 'Invalid email', 409
         elif user.save():

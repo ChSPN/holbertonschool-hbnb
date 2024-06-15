@@ -19,7 +19,7 @@ class IAmenityRepository(ABC):
     def get_all(self) -> list: pass
 
     @abstractmethod
-    def exist(self, id: uuid) -> bool: pass
+    def exist(self, id: uuid, name: str = None) -> bool: pass
 
     @abstractmethod
     def get_by_place(self, id: uuid) -> list: pass
