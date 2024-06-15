@@ -13,7 +13,7 @@ class RepositoryFileManager(IRepositoryManager):
         return AmenityFileRepository(self)
 
     def placeRepository(self):
-        return PlaceFileRepository()
+        return PlaceFileRepository(self)
 
     def reviewRepository(self):
         return ReviewFileRepository()
