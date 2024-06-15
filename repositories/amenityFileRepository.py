@@ -1,13 +1,15 @@
 import uuid
 from entities.amenity import Amenity
+from managers.iRepositoryManager import IRepositoryManager
 from repositories.iAmenityRepository import IAmenityRepository
 from managers.persistenceFileManager import PersistenceFileManager
 
 
 class AmenityFileRepository(IAmenityRepository):
-    def __init__(self):
+    def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()
+        self._repositoryManager = repositoryManager
 
     def create(self, amenity) -> bool:
         return self._persistenceManager.save(amenity)
@@ -19,18 +21,33 @@ class AmenityFileRepository(IAmenityRepository):
         return self._persistenceManager.delete(amenity_id, Amenity)
 
     def get_by_id(self, amenity_id: uuid):
-        return self._persistenceManager.get(amenity_id, Amenity)
+        amenity = self._persistenceManager.get(amenity_id, Amenity)
+        if not amenity:
+            return None
+        else:
+            return Amenity(self._repositoryManager, amenity)
 
     def get_all(self) -> list:
-        return self._persistenceManager.get_all(Amenity)
+        amenities = self._persistenceManager.get_all(Amenity)
+        if not amenities or len(amenities) == 0:
+            return []
+        else:
+            return [Amenity(self._repositoryManager, amenity) for amenity in amenities]
 
-    def exist(self, id: uuid) -> bool:
+    def exist(self, id: uuid, name: str = None) -> bool:
         try:
-            amenity = self._persistenceManager.get(id, Amenity)
-            if not amenity:
-                return False
+            if name is None:
+                amenity = self._persistenceManager.get(id, Amenity)
+                if not amenity:
+                    return False
+                else:
+                    return True
             else:
-                return True
+                amenities = self._persistenceManager.get_all(Amenity)
+                if not amenities or len(amenities) == 0:
+                    return False
+                else:
+                    return any(amenity.get('id') != id and amenity.get('name') == name for amenity in amenities)
         except Exception:
             return False
 
@@ -44,7 +61,7 @@ class AmenityFileRepository(IAmenityRepository):
                 if not amenities or not place.amenity_ids:
                     return []
                 else:
-                    return [amenity for amenity in amenities
-                            if amenity.id in place.amenity_ids]
+                    return [Amenity(self._repositoryManager, amenity) for amenity in amenities 
+                            if amenity.get('id') in place.amenity_ids]
         except Exception:
             return []
