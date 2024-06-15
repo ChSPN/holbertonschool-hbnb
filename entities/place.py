@@ -65,7 +65,7 @@ class Place:
 
     def parse(self, place: dict = None):
         if place and 'id' in place:
-            self.id = place['id']
+            self.id = uuid.UUID(place['id']) if place['id'] is str else place['id']
         if place and 'created_at' in place:
             self.created_at = place['created_at']
         if place and 'updated_at' in place:
@@ -81,7 +81,12 @@ class Place:
         self.max_guests = place['max_guests'] if place and 'max_guests' in place else None
         self.amenity_ids:list = place['amenity_ids'] if place and 'amenity_ids' in place else None
         self.host_id:uuid = place['host_id'] if place and 'host_id' in place else None
+        if self.host_id is str:
+            self.host_id = uuid.UUID(self.host_id)
+
         self.city_id:uuid = place['city_id'] if place and 'city_id' in place else None
+        if self.city_id is str:
+            self.city_id = uuid.UUID(self.city_id)
 
     def add_amenity(self, amenity: Amenity):
         """Business logic for adding amenity"""

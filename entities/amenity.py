@@ -32,7 +32,7 @@ class Amenity:
         
     def parse(self, amenity: dict = None):
         if amenity and 'id' in amenity:
-            self.id = amenity['id']
+            self.id = uuid.UUID(amenity['id']) if amenity['id'] is str else amenity['id']
         if amenity and 'created_at' in amenity:
             self.created_at = amenity['created_at']
         if amenity and 'updated_at' in amenity:

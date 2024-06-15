@@ -2,14 +2,16 @@ import uuid
 from entities.city import City
 from entities.country import Country
 from entities.review import Review
+from managers.iRepositoryManager import IRepositoryManager
 from managers.persistenceFileManager import PersistenceFileManager
 from repositories.iCityRepository import ICityRepository
 
 
 class CityFileRepository(ICityRepository):
-    def __init__(self):
+    def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()
+        self._repositoryManager = repositoryManager
 
     def create(self, city) -> bool:
         return self._persistenceManager.save(city)
@@ -21,25 +23,41 @@ class CityFileRepository(ICityRepository):
         return self._persistenceManager.delete(city_id, City)
 
     def get_by_id(self, city_id: uuid):
-        return self._persistenceManager.get(city_id, City)
+        city = self._persistenceManager.get(city_id, City)
+        if not city:
+            return None
+        else:
+            return City(self._repositoryManager, city)
 
     def get_by_country_code(self, code: str):
         countries = self._persistenceManager.get_all(Country)
         for country in countries:
-            if country.code == code:
+            if country.get('code') == code:
                 cities = self._persistenceManager.get_all(City)
-                return [city for city in cities if city.country_id == country.id]
+                return [City(self._repositoryManager, city) for city in cities 
+                        if city.get('country_id') == country.get('id')]
         return None
 
     def get_all(self) -> list:
-        return self._persistenceManager.get_all(City)
+        cities = self._persistenceManager.get_all(City)
+        if not cities:
+            return []
+        else: 
+            return [City(self._repositoryManager, city) for city in cities]
 
-    def exist(self, id: uuid) -> bool:
+    def exist(self, id: uuid, city_name: str = None) -> bool:
         try:
-            entity = self._persistenceManager.get(id, City)
-            if not entity:
-                return False
+            if city_name is None:
+                city = self._persistenceManager.get(id, City)
+                if not city:
+                    return False
+                else:
+                    return True
             else:
-                return True
+                cities = self._persistenceManager.get_all(City)
+                if not cities or len(cities) == 0:
+                    return False
+                else:
+                    return any(str(city.get('country_id')) == str(id) and city.get('name') == city_name for city in cities)
         except Exception:
             return False

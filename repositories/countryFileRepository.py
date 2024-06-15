@@ -1,13 +1,15 @@
 import uuid
 from entities.country import Country
+from managers.iRepositoryManager import IRepositoryManager
 from managers.persistenceFileManager import PersistenceFileManager
 from repositories.iCountryRepository import ICountryRepository
 
 
 class CountryFileRepository(ICountryRepository):
-    def __init__(self):
+    def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()
+        self._repositoryManager = repositoryManager
 
     def create(self, country) -> bool:
         return self._persistenceManager.save(country)
@@ -19,24 +21,42 @@ class CountryFileRepository(ICountryRepository):
         return self._persistenceManager.delete(country_id, Country)
 
     def get_by_id(self, country_id: uuid):
-        return self._persistenceManager.get(country_id, Country)
+        country = self._persistenceManager.get(country_id, Country)
+        if not country:
+            return None
+        else:
+            return Country(self._repositoryManager, country)
 
     def get_by_code(self, code: str):
         countries = self._persistenceManager.get_all(Country)
         for country in countries:
-            if country.code == code:
-                return country
+            if country.get('code') == code:
+                return Country(self._repositoryManager, country)
         return None
 
     def get_all(self) -> list:
-        return self._persistenceManager.get_all(Country)
+        countries = self._persistenceManager.get_all(Country)
+        if not countries:
+            return []
+        else: 
+            return [Country(self._repositoryManager, country) for country in countries]
 
-    def exist(self, id: uuid) -> bool:
+    def exist(self, id: uuid, code: str = None) -> bool:
         try:
-            entity = self._persistenceManager.get(id, Country)
-            if not entity:
-                return False
+            if code is None:
+                country = self._persistenceManager.get(id, Country)
+                if not country:
+                    return False
+                else:
+                    return True
             else:
-                return True
+                countries = self._persistenceManager.get_all(Country)
+                if not countries or len(countries) == 0:
+                    return False
+                else:
+                    return any(country.get('id') != id 
+                               and (country.get('code') == code
+                                    or country.get('name') == code)
+                               for country in countries)
         except Exception:
             return False

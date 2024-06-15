@@ -51,7 +51,7 @@ class User:
         
     def parse(self, user: dict = None):
         if user and 'id' in user:
-            self.id = user['id']
+            self.id = uuid.UUID(user['id']) if user['id'] is str else user['id']
         if user and 'created_at' in user:
             self.created_at = user['created_at']
         if user and 'updated_at' in user:
