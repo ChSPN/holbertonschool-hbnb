@@ -22,4 +22,4 @@ class ICountryRepository(ABC):
     def get_all(self) -> list: pass
 
     @abstractmethod
-    def exist(self, id: uuid) -> bool: pass
+    def exist(self, id: uuid, code: str = None) -> bool: pass
