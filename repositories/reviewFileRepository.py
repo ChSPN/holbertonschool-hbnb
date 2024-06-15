@@ -1,13 +1,15 @@
 import uuid
 from entities.review import Review
+from managers.iRepositoryManager import IRepositoryManager
 from managers.persistenceFileManager import PersistenceFileManager
 from repositories.iReviewRepository import IReviewRepository
 
 
 class ReviewFileRepository(IReviewRepository):
-    def __init__(self):
+    def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()
+        self._repositoryManager = repositoryManager
 
     def create(self, review) -> bool:
         return self._persistenceManager.save(review)
@@ -19,15 +21,20 @@ class ReviewFileRepository(IReviewRepository):
         return self._persistenceManager.delete(review_id, Review)
 
     def get_by_id(self, review_id: uuid):
-        return self._persistenceManager.get(review_id, Review)
+        review = self._persistenceManager.get(review_id, Review)
+        if not review:
+            return None
+        else:
+            return Review(self._repositoryManager, review)
     
-    def get_by_customer(self, customer_id: uuid):
+    def get_by_user(self, user_id: uuid):
         try:
             reviews = self._persistenceManager.get_all(Review)
             if not reviews:
                 return []
             else:
-                return [review for review in reviews if review.customer_id == customer_id]
+                return [Review(self._repositoryManager, review) for review in reviews
+                        if str(review.get('user_id')) == str(user_id)]
         except Exception:
             return []
     
@@ -37,22 +44,17 @@ class ReviewFileRepository(IReviewRepository):
             if not reviews:
                 return []
             else:
-                return [review for review in reviews if review.place_id == place_id]
+                return [Review(self._repositoryManager, review) for review in reviews 
+                        if str(review.get('place_id')) == str(place_id)]
         except Exception:
             return []
 
     def get_all(self) -> list:
-        return self._persistenceManager.get_all(Review)
-
-    def get_by_place(self, id: uuid) -> list:
-        try:
-            reviews = self._persistenceManager.get_all(Review)
-            if not reviews:
-                return []
-            else:
-                return [review for review in reviews if review.place_id == id]
-        except Exception:
+        reviews = self._persistenceManager.get_all(Review)
+        if not reviews:
             return []
+        else: 
+            return [Review(self._repositoryManager, review) for review in reviews]
 
     def exist(self, id: uuid) -> bool:
         try:

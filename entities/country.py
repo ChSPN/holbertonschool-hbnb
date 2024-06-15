@@ -11,8 +11,7 @@ class Country:
         self.created_at = datetime.now(tzlocal.get_localzone())
         self.updated_at:datetime = None
         self.code:str
-        self.name:str 
-        self.cities:list = None
+        self.name:str
         self.parse(country)
 
     def to_dict(self):
