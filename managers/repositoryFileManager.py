@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from managers.iRepositoryManager import IRepositoryManager
 from repositories.amenityFileRepository import AmenityFileRepository
 from repositories.cityFileRepository import CityFileRepository
@@ -22,7 +21,7 @@ class RepositoryFileManager(IRepositoryManager):
         return UserFileRepository(self)
 
     def countryRepository(self):
-        return CountryFileRepository()
+        return CountryFileRepository(self)
 
     def cityRepository(self):
-        return CityFileRepository()
+        return CityFileRepository(self)
