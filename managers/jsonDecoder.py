@@ -11,7 +11,7 @@ class JsonDecoder(JSONDecoder):
         for key, value in obj.items():
             if isinstance(value, str):
                 try:
-                    temp = datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+                    temp = datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%S%z")
                     obj[key] = temp
                 except ValueError:
                     try:

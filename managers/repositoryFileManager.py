@@ -10,7 +10,7 @@ from repositories.userFileRepository import UserFileRepository
 
 class RepositoryFileManager(IRepositoryManager):
     def amenityRepository(self):
-        return AmenityFileRepository()
+        return AmenityFileRepository(self)
 
     def placeRepository(self):
         return PlaceFileRepository()
