@@ -16,9 +16,6 @@ class User:
         self.first_name:str
         self.last_name:str
         self.password:str
-        self.places:list = None
-        self.customers:list = None
-        self.reviews:list = None
         self.parse(user)
 
     def to_dict(self):

@@ -1,7 +1,6 @@
 from datetime import datetime
 import uuid
 import tzlocal
-from entities.country import Country
 from managers.iRepositoryManager import IRepositoryManager
 
 
@@ -13,7 +12,6 @@ class City:
         self.updated_at:datetime = None
         self.name:str
         self.country_id:uuid = None
-        self.country:Country
         self.parse(city)
 
     def to_dict(self):
