@@ -37,15 +37,14 @@ cd holbertonschool-hbnb
 
 
 ## Utilisation
-### Lancer la console
+### Installation des prérequis
 ```sh
-./console.py
+pip install --no-cache-dir -r requirements.txt
 ```
-La console permet de créer, lire, mettre à jour et supprimer des objets dans la base de données. Tapez help dans la console pour voir la liste des commandes disponibles.
 
 ### Lancer le serveur web
 ```sh
-python3 -m web_flask.main
+python3 -m api
 ```
 Le serveur web démarre sur http://localhost:5000/. Ouvrez un navigateur et naviguez vers cette URL pour accéder à l'interface web.
 
@@ -66,9 +65,21 @@ Le serveur web démarre sur http://localhost:5000/. Ouvrez un navigateur et navi
 ## Tests
 Pour exécuter les tests, utilisez la commande suivante :
 ```sh
-python3 -m unittest discover tests
+python3 -m test
 ```
 Les tests sont organisés dans le dossier tests/ et couvrent différentes parties de l'application.
+`
+
+### Créer l'image docker
+```sh
+docker build -t hbnb:1.0.0 -f Dockerfile .
+```
+
+
+### Executer l'image docker
+```sh
+docker run -d -v $PATH:/app/datas -e "PORT=5000" -p 5000:5000 hbnb:1.0.0
+```
 
 
 ## Contributeur
