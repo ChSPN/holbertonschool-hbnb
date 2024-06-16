@@ -26,6 +26,8 @@ user = ns.model(
 
 @ns.route("")
 class UserListResource(Resource):
+    """User list resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(UserListResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -33,6 +35,7 @@ class UserListResource(Resource):
     @ns.doc(description="Get all users")
     @ns.marshal_list_with(user, code=200)
     def get(self):
+        """Get all users."""
         return User.load(self._manager)
 
     @ns.doc(description="Create a new user")
@@ -41,6 +44,7 @@ class UserListResource(Resource):
     @ns.response(409, "Invalid email")
     @ns.response(400, "User not created")
     def post(self):
+        """Create a new user."""
         user = User(self._manager, self.api.payload)
         if not user.validate_email():
             return "Invalid email", 409
@@ -52,6 +56,8 @@ class UserListResource(Resource):
 
 @ns.route("/<uuid:id>")
 class UserResource(Resource):
+    """User resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(UserResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -60,6 +66,7 @@ class UserResource(Resource):
     @ns.marshal_with(user, code=200)
     @ns.response(404, "User not found")
     def get(self, id):
+        """Get user by id."""
         user = User.load(self._manager, id)
         if user:
             return user
@@ -73,6 +80,7 @@ class UserResource(Resource):
     @ns.response(404, "User not found")
     @ns.response(400, "User not updated")
     def put(self, id):
+        """Update user by id."""
         user = User.load(self._manager, id)
         if not user:
             return "User not found", 404
@@ -90,6 +98,7 @@ class UserResource(Resource):
     @ns.response(404, "User not found")
     @ns.response(400, "User not deleted")
     def delete(self, id):
+        """Delete user by id."""
         user = User.load(self._manager, id)
         if not user:
             return "User not found", 404

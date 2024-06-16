@@ -44,6 +44,8 @@ place = ns.model(
 
 @ns.route("")
 class PlaceListResource(Resource):
+    """Place list resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(PlaceListResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -51,6 +53,7 @@ class PlaceListResource(Resource):
     @ns.doc(description="Get all places")
     @ns.marshal_list_with(place, code=200)
     def get(self):
+        """Get all places."""
         return Place.load(self._manager)
 
     @ns.doc(description="Create a new place")
@@ -58,6 +61,7 @@ class PlaceListResource(Resource):
     @ns.response(201, "Place created")
     @ns.response(400, "Place not created")
     def post(self):
+        """Create a new place."""
         place = Place(self._manager, self.api.payload)
         if place.save():
             return "Place created", 201
@@ -67,6 +71,8 @@ class PlaceListResource(Resource):
 
 @ns.route("/<uuid:id>")
 class PlaceResource(Resource):
+    """Place resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(PlaceResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -75,6 +81,7 @@ class PlaceResource(Resource):
     @ns.marshal_with(place, code=200)
     @ns.response(404, "Place not found")
     def get(self, id):
+        """Get place by id."""
         place = Place.load(self._manager, id)
         if place:
             return place
@@ -87,6 +94,7 @@ class PlaceResource(Resource):
     @ns.response(404, "Place not found")
     @ns.response(400, "Place not updated")
     def put(self, id):
+        """Update place by id."""
         place = Place.load(self._manager, id)
         if not place:
             return "Place not found", 404
@@ -102,6 +110,7 @@ class PlaceResource(Resource):
     @ns.response(404, "Place not found")
     @ns.response(400, "Place not deleted")
     def delete(self, id):
+        """Delete place by id."""
         place = Place.load(self._manager, id)
         if not place:
             return "Place not found", 404

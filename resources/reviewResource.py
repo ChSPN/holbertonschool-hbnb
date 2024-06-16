@@ -26,13 +26,11 @@ review = ns.model(
     },
 )
 
-"""POST /places/{place_id}/reviews: Create a new review for a specified place.
-GET /places/{place_id}/reviews: Retrieve all reviews for a specific place.
-GET /users/{user_id}/reviews: Retrieve all reviews written by a specific user."""
-
 
 @ns.route("places/<uuid:place_id>/reviews")
 class ReviewPlaceResource(Resource):
+    """Review place resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(ReviewPlaceResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -41,6 +39,7 @@ class ReviewPlaceResource(Resource):
     @ns.marshal_list_with(review, code=200)
     @ns.response(404, "Reviews not found")
     def get(self, place_id):
+        """Get all reviews of the place."""
         reviews = Review.load_by_place(self._manager, place_id)
         if not reviews:
             return "Reviews not found", 404
@@ -54,6 +53,7 @@ class ReviewPlaceResource(Resource):
     @ns.response(400, "Review not created")
     @ns.response(409, "Review already exists")
     def post(self, place_id):
+        """Create a new review for the place."""
         review = Review(self._manager, self.api.payload)
         review.place_id = place_id
         if not review.exist_place():
@@ -70,6 +70,8 @@ class ReviewPlaceResource(Resource):
 
 @ns.route("users/<uuid:user_id>/reviews")
 class ReviewUserResource(Resource):
+    """Review user resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(ReviewUserResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -78,6 +80,7 @@ class ReviewUserResource(Resource):
     @ns.marshal_list_with(review, code=200)
     @ns.response(404, "Reviews not found")
     def get(self, user_id):
+        """Get all reviews of the user."""
         reviews = Review.load_by_user(self._manager, user_id)
         if not reviews:
             return "Reviews not found", 404
@@ -87,6 +90,8 @@ class ReviewUserResource(Resource):
 
 @ns.route("reviews/<uuid:id>")
 class ReviewResource(Resource):
+    """Review resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(ReviewResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -95,6 +100,7 @@ class ReviewResource(Resource):
     @ns.marshal_with(review, code=200)
     @ns.response(404, "Review not found")
     def get(self, id):
+        """Get review by id."""
         review = Review.load(self._manager, id)
         if review:
             return review
@@ -108,6 +114,7 @@ class ReviewResource(Resource):
     @ns.response(400, "Review not updated")
     @ns.response(409, "Review already exists")
     def put(self, id):
+        """Update review by id."""
         review = Review.load(self._manager, id)
         if not review:
             return "Review not found", 404
@@ -125,6 +132,7 @@ class ReviewResource(Resource):
     @ns.response(404, "Review not found")
     @ns.response(400, "Review not deleted")
     def delete(self, id):
+        """Delete review by id."""
         review = Review.load(self._manager, id)
         if not review:
             return "Review not found", 404
