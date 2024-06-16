@@ -6,6 +6,8 @@ from repositories.iUserRepository import IUserRepository
 
 
 class UserFileRepository(IUserRepository):
+    """User file repository class."""
+
     def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()

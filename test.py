@@ -17,7 +17,10 @@ from tests.userMockRepository import UserMockRepository
 
 
 class TestAmenity(unittest.TestCase):
+    """Test amenity class."""
+
     def test_save_valid(self):
+        """Test save amenity."""
         amenityRepo = AmenityMockRepository(exist=False, create=True)
         manager = RepositoryMockManager(amenityRepository=amenityRepo)
         amenity = Amenity(manager)
@@ -40,16 +43,20 @@ class TestAmenity(unittest.TestCase):
         )
 
     def test_save_invalid(self):
+        """Test save invalid amenity."""
         amenityRepo = AmenityMockRepository(
             exist=False, create=True, exists=True
         )
         manager = RepositoryMockManager(amenityRepository=amenityRepo)
         amenity = Amenity(manager)
         self.assertFalse(amenity.save(), "Create amenity work")
+        """Test save invalid amenity."""
         amenity.name = "test"
         self.assertFalse(amenity.save(), "Create amenity work")
+        """Test save invalid amenity."""
         amenityRepo._exists = False
         self.assertTrue(amenity.save(), "Create amenity don't work")
+        """Test save invalid amenity."""
 
 
 class TestCity(unittest.TestCase):

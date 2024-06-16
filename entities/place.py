@@ -5,7 +5,10 @@ from managers.iRepositoryManager import IRepositoryManager
 
 
 class Place:
+    """Place entity class."""
+
     def __init__(self, manager: IRepositoryManager = None, place: dict = None):
+        """Constructor for Place entity class."""
         self._amenity_repository = (
             None if manager is None else manager.amenityRepository()
         )
@@ -39,6 +42,7 @@ class Place:
         self.parse(place)
 
     def to_dict(self):
+        """Converts Place entity class to dictionary."""
         return {
             "city_id": self.city_id,
             "created_at": self.created_at,
@@ -59,6 +63,7 @@ class Place:
 
     @staticmethod
     def load(manager: IRepositoryManager, id: uuid = None):
+        """Loads a Place entity from the repository."""
         repo = manager.placeRepository()
         if id is None:
             return repo.get_all()
@@ -66,6 +71,7 @@ class Place:
             return repo.get_by_id(id)
 
     def parse(self, place: dict = None):
+        """Parses a dictionary to a Place entity class."""
         if place and "id" in place:
             self.id = (
                 uuid.UUID(place["id"]) if place["id"] is str else place["id"]
@@ -121,12 +127,14 @@ class Place:
             self.city_id = uuid.UUID(self.city_id)
 
     def delete(self) -> bool:
+        """Deletes a Place entity from the repository."""
         if not self._place_repository:
             return False
 
         return self._place_repository.delete(self.id)
 
     def save(self) -> bool:
+        """Saves a Place entity to the repository."""
         if (
             not self._place_repository
             or not self.name
@@ -149,20 +157,25 @@ class Place:
             return False
 
         if self.latitude < -90 or self.latitude > 90:
+            """Latitude must be between -90 and 90."""
             return False
 
         if self.longitude < -180 or self.longitude > 180:
+            """Longitude must be between -180 and 180."""
             return False
 
         if self.amenity_ids and not self._amenity_repository.exists(
             self.amenity_ids
         ):
+            """Amenities do not exist."""
             return False
 
         if not self._city_repository.exist(self.city_id):
+            """City does not exist."""
             return False
 
         if not self._user_repository.exist(self.host_id):
+            """Host does not exist."""
             return False
 
         if self._place_repository.exist(self.id):

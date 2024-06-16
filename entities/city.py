@@ -5,7 +5,10 @@ from managers.iRepositoryManager import IRepositoryManager
 
 
 class City:
+    """City entity class."""
+
     def __init__(self, manager: IRepositoryManager = None, city: dict = None):
+        """Constructor for City entity class."""
         self._repo = None if manager is None else manager.cityRepository()
         self._countryRepo = (
             None if manager is None else manager.countryRepository()
@@ -18,6 +21,7 @@ class City:
         self.parse(city)
 
     def to_dict(self):
+        """Converts City entity class to dictionary."""
         return {
             "country_id": self.country_id,
             "id": self.id,
@@ -28,6 +32,7 @@ class City:
 
     @staticmethod
     def load(manager: IRepositoryManager, id: uuid = None):
+        """Loads a City entity from the repository."""
         repo = manager.cityRepository()
         if id is None:
             return repo.get_all()
@@ -35,6 +40,7 @@ class City:
             return repo.get_by_id(id)
 
     def parse(self, city: dict = None):
+        """Parses a dictionary to a City entity class."""
         if city and "id" in city:
             self.id = (
                 uuid.UUID(city["id"]) if city["id"] is str else city["id"]
@@ -52,22 +58,26 @@ class City:
 
     @staticmethod
     def load_by_country_code(manager: IRepositoryManager, code: str):
+        """Loads a City entity from the repository by country code."""
         repo = manager.cityRepository()
         return repo.get_by_country_code(code)
 
     def delete(self) -> bool:
+        """Deletes a City entity from the repository."""
         if not self._repo:
             return False
 
         return self._repo.delete(self.id)
 
     def exist(self) -> bool:
+        """Check if a city exists in the repository."""
         if not self._repo:
             return False
 
         return self._repo.exist(self.country_id, self.name)
 
     def save(self) -> bool:
+        """Saves a City entity to the repository."""
         if (
             not self._repo
             or not self.name

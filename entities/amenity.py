@@ -5,9 +5,12 @@ from managers.iRepositoryManager import IRepositoryManager
 
 
 class Amenity:
+    """Amenity entity class."""
+
     def __init__(
         self, manager: IRepositoryManager = None, amenity: dict = None
     ):
+        """Constructor for Amenity entity class."""
         self._repo = None if manager is None else manager.amenityRepository()
         self.id: uuid = uuid.uuid4()
         self.created_at: datetime = datetime.now(tzlocal.get_localzone())
@@ -16,6 +19,7 @@ class Amenity:
         self.parse(amenity)
 
     def to_dict(self):
+        """Converts Amenity entity class to dictionary."""
         return {
             "created_at": self.created_at,
             "id": self.id,
@@ -32,6 +36,7 @@ class Amenity:
             return repo.get_by_id(id)
 
     def parse(self, amenity: dict = None):
+        """Parses a dictionary to an Amenity entity class"""
         if amenity and "id" in amenity:
             self.id = (
                 uuid.UUID(amenity["id"])
@@ -45,19 +50,25 @@ class Amenity:
         self.name = amenity["name"] if amenity and "name" in amenity else None
 
     def delete(self) -> bool:
+        """Deletes an Amenity entity from the repository."""
         if not self._repo:
             return False
 
         return self._repo.delete(self.id)
 
     def exist(self, name: str) -> bool:
+        """Check if an amenity exists in the repository"""
         if not self._repo:
             return False
 
         return self._repo.exist(self.id, name)
 
     def save(self) -> bool:
+        """Saves an amenity entity to the repository"""
         if not self._repo or not self.name or self.exist(self.name):
+            """If the repository is not set
+            or the name is empty
+            or the amenity already exists, return False"""
             return False
 
         if self._repo.exist(self.id):

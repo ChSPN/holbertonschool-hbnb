@@ -6,7 +6,10 @@ from managers.iRepositoryManager import IRepositoryManager
 
 
 class User:
+    """User entity class."""
+
     def __init__(self, manager: IRepositoryManager = None, user: dict = None):
+        """Constructor for User entity class."""
         self._place_repository = (
             None if manager is None else manager.placeRepository()
         )
@@ -23,6 +26,7 @@ class User:
         self.parse(user)
 
     def to_dict(self):
+        """Converts User entity class to dictionary."""
         return {
             "created_at": self.created_at,
             "email": self.email,
@@ -34,16 +38,19 @@ class User:
         }
 
     def validate_email(self):
-        """Business logic for validating email"""
+        """Validates email address."""
         if not re.match(r"[^@]+@[^@]+\.[^@]+", self.email):
+            """Invalid email address."""
             return False
 
         user = self._user_repository.get_by_email(self.email)
         if user is None or user.id == self.id:
+            """Valid email address."""
             return True
 
     @staticmethod
     def load(manager: IRepositoryManager, id: uuid = None):
+        """Loads a User entity from the repository."""
         repo = manager.userRepository()
         if id is None:
             return repo.get_all()
@@ -51,6 +58,7 @@ class User:
             return repo.get_by_id(id)
 
     def parse(self, user: dict = None):
+        """Parses a dictionary to a User entity class."""
         if user and "id" in user:
             self.id = (
                 uuid.UUID(user["id"]) if user["id"] is str else user["id"]
@@ -71,12 +79,14 @@ class User:
         )
 
     def delete(self) -> bool:
+        """Deletes a User entity from the repository."""
         if not self._user_repository:
             return False
 
         return self._user_repository.delete(self.id)
 
     def save(self) -> bool:
+        """Saves a User entity to the repository."""
         if (
             not self._user_repository
             or not self.email
