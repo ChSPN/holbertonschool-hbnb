@@ -7,6 +7,7 @@ from managers.iRepositoryManager import IRepositoryManager
 class City:
     def __init__(self, manager: IRepositoryManager = None, city: dict = None):
         self._repo = None if manager is None else manager.cityRepository()
+        self._countryRepo = None if manager is None else manager.countryRepository()
         self.id = uuid.uuid4()
         self.created_at = datetime.now(tzlocal.get_localzone())
         self.updated_at:datetime = None
@@ -64,6 +65,7 @@ class City:
         if (not self._repo 
             or not self.name
             or not self.country_id
+            or not self._countryRepo.exist(self.country_id)
             or self.exist()):
             return False
         

@@ -51,7 +51,9 @@ class Amenity:
         return self._repo.exist(self.id, name)
 
     def save(self) -> bool:
-        if (not self._repo or not self.name):
+        if (not self._repo 
+            or not self.name
+            or self.exist(self.name)):
             return False
         
         if (self._repo.exist(self.id)):
