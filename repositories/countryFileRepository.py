@@ -30,7 +30,7 @@ class CountryFileRepository(ICountryRepository):
     def get_by_code(self, code: str):
         countries = self._persistenceManager.get_all(Country)
         for country in countries:
-            if country.get('code') == code:
+            if country.get("code") == code:
                 return Country(self._repositoryManager, country)
         return None
 
@@ -38,8 +38,11 @@ class CountryFileRepository(ICountryRepository):
         countries = self._persistenceManager.get_all(Country)
         if not countries:
             return []
-        else: 
-            return [Country(self._repositoryManager, country) for country in countries]
+        else:
+            return [
+                Country(self._repositoryManager, country)
+                for country in countries
+            ]
 
     def exist(self, id: uuid, code: str = None) -> bool:
         try:
@@ -54,9 +57,13 @@ class CountryFileRepository(ICountryRepository):
                 if not countries or len(countries) == 0:
                     return False
                 else:
-                    return any(country.get('id') != id 
-                               and (country.get('code') == code
-                                    or country.get('name') == code)
-                               for country in countries)
+                    return any(
+                        country.get("id") != id
+                        and (
+                            country.get("code") == code
+                            or country.get("name") == code
+                        )
+                        for country in countries
+                    )
         except Exception:
             return False

@@ -5,15 +5,18 @@ from entities.user import User
 
 
 class PlaceMockRepository(IPlaceRepository):
-    def __init__(self, add_amenity:bool = None,
-                 add_customer:bool = None,
-                 create:bool = None,
-                 get_by_host:list[User] = None,
-                 update:bool = None,
-                 delete:bool = None,
-                 get_by_id:Place = None,
-                 get_all:list[Place] = None, 
-                 exist=bool or None):
+    def __init__(
+        self,
+        add_amenity: bool = None,
+        add_customer: bool = None,
+        create: bool = None,
+        get_by_host: list[User] = None,
+        update: bool = None,
+        delete: bool = None,
+        get_by_id: Place = None,
+        get_all: list[Place] = None,
+        exist=bool or None,
+    ):
         super().__init__()
         self._add_amenity = add_amenity or None
         self._add_customer = add_customer or None

@@ -4,16 +4,18 @@ from repositories.iUserRepository import IUserRepository
 
 
 class UserMockRepository(IUserRepository):
-    def __init__(self, 
-                 exist=bool or None, 
-                 user=User or None,
-                 customers=list[User] or None, 
-                 create=bool or None, 
-                 update:bool = None,
-                 delete:bool = None,
-                 get_by_id:User = None,
-                 get_by_email:User = None,
-                 get_all:list[User] = None):
+    def __init__(
+        self,
+        exist=bool or None,
+        user=User or None,
+        customers=list[User] or None,
+        create=bool or None,
+        update: bool = None,
+        delete: bool = None,
+        get_by_id: User = None,
+        get_by_email: User = None,
+        get_all: list[User] = None,
+    ):
         super().__init__()
         self._exist = exist or None
         self._user = user or None
@@ -33,7 +35,7 @@ class UserMockRepository(IUserRepository):
 
     def get_by_email(self, email: str) -> User:
         return self._get_by_email
-    
+
     def create(self, user: User) -> bool:
         return self._create
 

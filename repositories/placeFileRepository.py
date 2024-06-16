@@ -31,7 +31,7 @@ class PlaceFileRepository(IPlaceRepository):
         places = self._persistenceManager.get_all(Place)
         if not places:
             return []
-        else: 
+        else:
             return [Place(self._repositoryManager, place) for place in places]
 
     def get_by_host(self, id: uuid) -> list:
@@ -40,8 +40,11 @@ class PlaceFileRepository(IPlaceRepository):
             if not places:
                 return []
             else:
-                return [Place(self._repositoryManager, place) for place in places 
-                        if str(place.get('host_id')) == str(id)]
+                return [
+                    Place(self._repositoryManager, place)
+                    for place in places
+                    if str(place.get("host_id")) == str(id)
+                ]
         except Exception:
             return []
 
