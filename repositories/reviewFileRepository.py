@@ -56,12 +56,22 @@ class ReviewFileRepository(IReviewRepository):
         else: 
             return [Review(self._repositoryManager, review) for review in reviews]
 
-    def exist(self, id: uuid) -> bool:
+    def exist(self, id: uuid, place_id: uuid = None, user_id: uuid = None) -> bool:
         try:
-            entity = self._persistenceManager.get(id, Review)
-            if not entity:
-                return False
+            if user_id is None:
+                review = self._persistenceManager.get(id, Review)
+                if not review:
+                    return False
+                else:
+                    return True
             else:
-                return True
+                reviews = self._persistenceManager.get_all(Review)
+                if not reviews or len(reviews) == 0:
+                    return False
+                else:
+                    return any(str(review.get('user_id')) == str(user_id)
+                               and str(review.get('place_id')) == str(place_id)
+                               and str(review.get('id')) != str(id)
+                               for review in reviews)
         except Exception:
             return False

@@ -63,7 +63,6 @@ class Country:
             or not self.name
             or not self.code
             or self.exist(self.code)):
-            print(self.to_dict())
             return False
         
         if (self._repo.exist(self.id)):

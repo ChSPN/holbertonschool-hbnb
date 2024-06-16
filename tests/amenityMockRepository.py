@@ -7,6 +7,7 @@ class AmenityMockRepository(IAmenityRepository):
     def __init__(self,
                  create:bool = None,
                  exist:bool = None,
+                 exists:bool = None,
                  get_by_place:list = None,
                  update:bool = None,
                  delete:bool = None,
@@ -15,6 +16,7 @@ class AmenityMockRepository(IAmenityRepository):
         super().__init__()
         self._create = create or None
         self._exist = exist or None
+        self._exists = exists or None
         self._get_by_place = get_by_place or None
         self._update = update or None
         self._delete = delete or None
@@ -36,8 +38,11 @@ class AmenityMockRepository(IAmenityRepository):
     def get_all(self) -> list[Amenity]:
         return self._get_all
 
-    def exist(self, id: uuid) -> bool:
-        return self._exist
+    def exist(self, id: uuid, name:str = None) -> bool:
+        return self._exists if name is not None else self._exist
+
+    def exists(self, ids: list) -> bool:
+        return self._exists
 
     def get_by_place(self, id: uuid) -> list:
         return self._get_by_place
