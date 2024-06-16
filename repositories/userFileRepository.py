@@ -31,7 +31,7 @@ class UserFileRepository(IUserRepository):
         users = self._persistenceManager.get_all(User)
         if not users:
             return []
-        else: 
+        else:
             return [User(self._repositoryManager, user) for user in users]
 
     def get_by_email(self, email: str):
@@ -40,7 +40,7 @@ class UserFileRepository(IUserRepository):
             if not users:
                 return None
             else:
-                users = [user for user in users if user.get('email') == email]
+                users = [user for user in users if user.get("email") == email]
                 if not users or len(users) == 0:
                     return None
                 else:

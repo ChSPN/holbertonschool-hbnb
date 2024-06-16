@@ -32,7 +32,10 @@ class AmenityFileRepository(IAmenityRepository):
         if not amenities or len(amenities) == 0:
             return []
         else:
-            return [Amenity(self._repositoryManager, amenity) for amenity in amenities]
+            return [
+                Amenity(self._repositoryManager, amenity)
+                for amenity in amenities
+            ]
 
     def exist(self, id: uuid, name: str = None) -> bool:
         try:
@@ -47,17 +50,20 @@ class AmenityFileRepository(IAmenityRepository):
                 if not amenities or len(amenities) == 0:
                     return False
                 else:
-                    return any(amenity.get('id') != id and amenity.get('name') == name for amenity in amenities)
+                    return any(
+                        amenity.get("id") != id and amenity.get("name") == name
+                        for amenity in amenities
+                    )
         except Exception:
             return False
-        
+
     def exists(self, ids: list) -> bool:
         try:
             amenities = self._persistenceManager.get_all(Amenity)
             if not amenities or len(amenities) == 0:
                 return False
             else:
-                return all(amenity.get('id') in ids for amenity in amenities)
+                return all(amenity.get("id") in ids for amenity in amenities)
         except Exception:
             return False
 
@@ -71,7 +77,10 @@ class AmenityFileRepository(IAmenityRepository):
                 if not amenities or not place.amenity_ids:
                     return []
                 else:
-                    return [Amenity(self._repositoryManager, amenity) for amenity in amenities 
-                            if amenity.get('id') in place.amenity_ids]
+                    return [
+                        Amenity(self._repositoryManager, amenity)
+                        for amenity in amenities
+                        if amenity.get("id") in place.amenity_ids
+                    ]
         except Exception:
             return []

@@ -4,15 +4,17 @@ from repositories.iCityRepository import ICityRepository
 
 
 class CityMockRepository(ICityRepository):
-    def __init__(self,
-                 create: bool = True, 
-                 update: bool = True, 
-                 delete: bool = True,
-                 exist: bool = True,
-                 exists:bool = None,
-                 get_by_id: City = None,
-                 get_by_country_code: City = None,
-                 get_all: list[City] = None):
+    def __init__(
+        self,
+        create: bool = True,
+        update: bool = True,
+        delete: bool = True,
+        exist: bool = True,
+        exists: bool = None,
+        get_by_id: City = None,
+        get_by_country_code: City = None,
+        get_all: list[City] = None,
+    ):
         super().__init__()
         self._create = create or None
         self._update = update or None
@@ -41,5 +43,5 @@ class CityMockRepository(ICityRepository):
     def get_all(self) -> list:
         return self._get_all
 
-    def exist(self, id: uuid, name:str = None) -> bool:
+    def exist(self, id: uuid, name: str = None) -> bool:
         return self._exists if name is not None else self._exist
