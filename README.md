@@ -20,12 +20,12 @@ Bienvenue dans la première étape de notre passionnant voyage - la création de
 - *Couche de logique métier* : C'est là que se déroulent tous les traitements et les prises de décision.
 - *Couche de persistance* : Pour l'instant, c'est notre humble système de fichiers, mais nous passerons à une base de données à l'avenir.
 ### UML
-![UML du projet HBnB](https://github.com/ChSPN/holbertonschool-hbnb/blob/edc192382095ab3be661b9d5576bcf199b93cade/HBnB_uml2.png "UML du projet HBnB")
+![UML du projet HBnB](HBnB_uml.png "UML du projet HBnB")
 
 
 ## Installation
 ### Prérequis
-- Python 3.x
+- Python 3.11
 - pip
 
 ### Cloner le dépôt
@@ -56,10 +56,14 @@ Le serveur web démarre sur http://localhost:5000/. Ouvrez un navigateur et navi
 
 
 ## Architecture du projet
-- *console.py* : La console interactive.
-- *models/*: Contient les classes et la logique de stockage des objets.
-- *tests/* : Contient les tests unitaires pour le projet.
-- *web_flask/* : Contient les fichiers pour l'application web.
+- *datas/*: Contient les données persistantes en JSON.
+- *entities/* : Contient les entités.
+- *managers/* : Contient les classes managers.
+- *repositories/* : Contient les repositories d'accès aux données.
+- *resources/* : Contient les endpoints des APIs.
+- *tests/* : Contient les mocks pour les tests.
+- *api.py* : Contient les APIs.
+- *test.py* : Contient les tests unitaires.
 
 
 ## Tests
@@ -84,7 +88,4 @@ docker run -d -v $PATH:/app/datas -e "PORT=5000" -p 5000:5000 hbnb:1.0.0
 
 ## Contributeur
 Charlène SCOMPARIN
-
-
-## Licence
 
