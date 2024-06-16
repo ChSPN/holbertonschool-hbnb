@@ -23,6 +23,8 @@ amenity = ns.model(
 
 @ns.route("")
 class AmenityListResource(Resource):
+    """Amenity list resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(AmenityListResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -30,6 +32,7 @@ class AmenityListResource(Resource):
     @ns.doc(description="Get all amenities")
     @ns.marshal_list_with(amenity, code=200)
     def get(self):
+        """Get all amenities."""
         return Amenity.load(self._manager)
 
     @ns.doc(description="Create a new amenity")
@@ -38,6 +41,7 @@ class AmenityListResource(Resource):
     @ns.response(409, "Amenity already exists")
     @ns.response(400, "Amenity not created")
     def post(self):
+        """Create a new amenity."""
         amenity = Amenity(self._manager, self.api.payload)
         if amenity.exist(
             self.api.payload["name"]
@@ -53,6 +57,8 @@ class AmenityListResource(Resource):
 
 @ns.route("/<uuid:id>")
 class AmenityResource(Resource):
+    """Amenity resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(AmenityResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -61,6 +67,7 @@ class AmenityResource(Resource):
     @ns.marshal_with(amenity, code=200)
     @ns.response(404, "Amenity not found")
     def get(self, id):
+        """Get amenity by id."""
         amenity = Amenity.load(self._manager, id)
         if amenity:
             return amenity
@@ -74,6 +81,7 @@ class AmenityResource(Resource):
     @ns.response(404, "Amenity not found")
     @ns.response(400, "Amenity not updated")
     def put(self, id):
+        """Update amenity by id."""
         amenity = Amenity.load(self._manager, id)
         if not amenity:
             return "Amenity not found", 404
@@ -95,6 +103,7 @@ class AmenityResource(Resource):
     @ns.response(404, "Amenity not found")
     @ns.response(400, "Amenity not deleted")
     def delete(self, id):
+        """Delete amenity by id."""
         amenity = Amenity.load(self._manager, id)
         if not amenity:
             return "Amenity not found", 404

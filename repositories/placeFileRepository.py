@@ -6,6 +6,8 @@ from repositories.iPlaceRepository import IPlaceRepository
 
 
 class PlaceFileRepository(IPlaceRepository):
+    """Place file repository class."""
+
     def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()

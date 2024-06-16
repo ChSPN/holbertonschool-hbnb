@@ -8,6 +8,8 @@ from repositories.iCityRepository import ICityRepository
 
 
 class CityFileRepository(ICityRepository):
+    """City file repository class."""
+
     def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()

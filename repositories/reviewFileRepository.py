@@ -6,6 +6,8 @@ from repositories.iReviewRepository import IReviewRepository
 
 
 class ReviewFileRepository(IReviewRepository):
+    """Review file repository class."""
+
     def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()

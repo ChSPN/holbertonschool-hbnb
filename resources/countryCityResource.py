@@ -44,6 +44,8 @@ city = ns.model(
 
 @ns.route("countries")
 class CountryListResource(Resource):
+    """Country list resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(CountryListResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -51,11 +53,14 @@ class CountryListResource(Resource):
     @ns.doc(description="Get all countries")
     @ns.marshal_list_with(country, code=200)
     def get(self):
+        """Get all countries."""
         return Country.load(self._manager)
 
 
 @ns.route("countries/<string:country_code>")
 class CountryResource(Resource):
+    """Country resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(CountryResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -64,6 +69,7 @@ class CountryResource(Resource):
     @ns.marshal_with(country, code=200)
     @ns.response(404, "Country not found")
     def get(self, country_code):
+        """Get country by code."""
         country = Country.load_by_code(self._manager, country_code)
         if country:
             return country
@@ -73,6 +79,8 @@ class CountryResource(Resource):
 
 @ns.route("countries/<string:country_code>/cities")
 class CountryCityResource(Resource):
+    """Country city resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(CountryCityResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -81,6 +89,7 @@ class CountryCityResource(Resource):
     @ns.marshal_list_with(city, code=200)
     @ns.response(404, "Cities not found")
     def get(self, country_code):
+        """Get cities by country code."""
         cities = City.load_by_country_code(self._manager, country_code)
         if cities:
             return cities
@@ -90,6 +99,8 @@ class CountryCityResource(Resource):
 
 @ns.route("cities")
 class CityListResource(Resource):
+    """City list resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(CityListResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -97,6 +108,7 @@ class CityListResource(Resource):
     @ns.doc(description="Get all cities")
     @ns.marshal_list_with(city, code=200)
     def get(self):
+        """Get all cities."""
         return City.load(self._manager)
 
     @ns.doc(description="Create a new city")
@@ -105,6 +117,7 @@ class CityListResource(Resource):
     @ns.response(409, "City already exists")
     @ns.response(400, "City not created")
     def post(self):
+        """Create a new city."""
         city = City(self._manager, self.api.payload)
         if city.exist():
             return "City already exists", 409
@@ -116,6 +129,8 @@ class CityListResource(Resource):
 
 @ns.route("cities/<uuid:id>")
 class CityResource(Resource):
+    """City resource."""
+
     def __init__(self, api=None, *args, **kwargs):
         super(CityResource, self).__init__(api, *args, **kwargs)
         self._manager = RepositoryFileManager()
@@ -124,6 +139,7 @@ class CityResource(Resource):
     @ns.marshal_with(city, code=200)
     @ns.response(404, "City not found")
     def get(self, id):
+        """Get city by id."""
         city = City.load(self._manager, id)
         if city:
             return city
@@ -137,6 +153,7 @@ class CityResource(Resource):
     @ns.response(404, "City not found")
     @ns.response(400, "City not updated")
     def put(self, id):
+        """Update city by id."""
         city = City.load(self._manager, id)
         if not city:
             return "City not found", 404
@@ -158,6 +175,7 @@ class CityResource(Resource):
     @ns.response(404, "City not found")
     @ns.response(400, "City not deleted")
     def delete(self, id):
+        """Delete city by id."""
         city = City.load(self._manager, id)
         if not city:
             return "City not found", 404

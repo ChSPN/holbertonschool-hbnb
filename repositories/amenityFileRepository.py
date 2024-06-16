@@ -6,6 +6,8 @@ from managers.persistenceFileManager import PersistenceFileManager
 
 
 class AmenityFileRepository(IAmenityRepository):
+    """Amenity file repository class."""
+
     def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()

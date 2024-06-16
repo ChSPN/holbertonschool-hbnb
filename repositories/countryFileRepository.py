@@ -6,6 +6,8 @@ from repositories.iCountryRepository import ICountryRepository
 
 
 class CountryFileRepository(ICountryRepository):
+    """Country file repository class."""
+
     def __init__(self, repositoryManager: IRepositoryManager):
         super().__init__()
         self._persistenceManager = PersistenceFileManager()
