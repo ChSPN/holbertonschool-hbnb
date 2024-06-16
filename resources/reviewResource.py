@@ -38,15 +38,19 @@ class ReviewPlaceResource(Resource):
     @ns.doc(description='Create a new review for the place')
     @ns.expect(review)
     @ns.response(201, 'Review created')
-    @ns.response(404, 'Place not exist')
+    @ns.response(404, 'Place or user not exist')
     @ns.response(400, 'Review not created')
+    @ns.response(409, 'Review already exists')
     def post(self, place_id):
         review = Review(self._manager, self.api.payload)
         review.place_id = place_id
         if not review.exist_place():
             return 'Place not exist', 404
-
-        if review.save():
+        elif not review.exist_user():
+            return 'User not exist', 404
+        elif review.exist():
+            return 'Review already exists', 409
+        elif review.save():
             return 'Review created', 201
         else:
             return 'Review not created', 400
@@ -88,10 +92,13 @@ class ReviewResource(Resource):
     @ns.response(201, 'Review updated')
     @ns.response(404, 'Review not found')
     @ns.response(400, 'Review not updated')
+    @ns.response(409, 'Review already exists')
     def put(self, id):
         review = Review.load(self._manager, id)
         if not review:
             return 'Review not found', 404
+        elif review.exist():
+            return 'Review already exists', 409
 
         review.parse(self.api.payload)
         if review.save():

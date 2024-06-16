@@ -10,17 +10,19 @@ class CountryMockRepository(ICountryRepository):
                  update: bool = True, 
                  delete: bool = True,
                  exist: bool = True,
+                 exists:bool = None,
                  get_by_id: Country = None,
                  get_by_code: Country = None,
                  get_all: list[Country] = None):
         super().__init__()
-        self._create = create
-        self._update = update
-        self._delete = delete
-        self._exist = exist
-        self._get_by_id = get_by_id
-        self._get_by_code = get_by_code
-        self._get_all = get_all
+        self._create = create or None
+        self._update = update or None
+        self._delete = delete or None
+        self._exist = exist or None
+        self._exists = exists or None
+        self._get_by_id = get_by_id or None
+        self._get_by_code = get_by_code or None
+        self._get_all = get_all or None
 
     def create(self, city) -> bool:
         return self._create
@@ -40,5 +42,5 @@ class CountryMockRepository(ICountryRepository):
     def get_all(self) -> list:
         return self._get_all
 
-    def exist(self, id: uuid) -> bool:
-        return self._exist
+    def exist(self, id: uuid, name:str = None) -> bool:
+        return self._exists if name is not None else self._exist

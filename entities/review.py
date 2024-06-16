@@ -81,6 +81,12 @@ class Review:
 
         return self._user_repo.exist(self.user_id)
 
+    def exist(self) -> bool:
+        if (not self._review_repo):
+            return False
+
+        return self._review_repo.exist(self.id, self.place_id, self.user_id)
+
     def save(self) -> bool:
         if (not self._review_repo
             or not self._user_repo
@@ -91,14 +97,17 @@ class Review:
             or not (1 <= self.rating <= 5)):
             return False
         
-        if not self._place_repo.exist(self.place_id):
+        if self.exist():
             return False
         
-        if not self._user_repo.exist(self.user_id):
+        if not self.exist_place():
             return False
         
-        if (self._place_repo.exist(self.id)):
+        if not self.exist_user():
+            return False
+        
+        if (self._review_repo.exist(self.id)):
             self.updated_at = datetime.now(tzlocal.get_localzone())
-            return self._place_repo.update(self)
+            return self._review_repo.update(self)
         else:
-            return self._place_repo.create(self)
+            return self._review_repo.create(self)
