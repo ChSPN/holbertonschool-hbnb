@@ -4,22 +4,29 @@ import uuid
 
 class ICityRepository(ABC):
     @abstractmethod
-    def create(self, city) -> bool: pass
+    def create(self, city) -> bool:
+        pass
 
     @abstractmethod
-    def update(self, city) -> bool: pass
+    def update(self, city) -> bool:
+        pass
 
     @abstractmethod
-    def delete(self, city_id: uuid) -> bool: pass
+    def delete(self, city_id: uuid) -> bool:
+        pass
 
     @abstractmethod
-    def get_by_id(self, city_id: uuid): pass
+    def get_by_id(self, city_id: uuid):
+        pass
 
     @abstractmethod
-    def get_by_country_code(self, code: str): pass
+    def get_by_country_code(self, code: str):
+        pass
 
     @abstractmethod
-    def get_all(self) -> list: pass
+    def get_all(self) -> list:
+        pass
 
     @abstractmethod
-    def exist(self, id: uuid, city_name: str = None) -> bool: pass
+    def exist(self, id: uuid, city_name: str = None) -> bool:
+        pass

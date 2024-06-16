@@ -8,14 +8,16 @@ from resources.reviewResource import ns as review_ns
 
 
 app = Flask(__name__)
-app.config['RESTX_MASK_SWAGGER'] = False
-api = Api(app, version='1.0', title='HBNB APIs', description='APIs for HBNB project')
+app.config["RESTX_MASK_SWAGGER"] = False
+api = Api(
+    app, version="1.0", title="HBNB APIs", description="APIs for HBNB project"
+)
 
-api.add_namespace(user_ns, path='/users')
-api.add_namespace(country_city_ns, path='/')
-api.add_namespace(amenity_ns, path='/amenities')
-api.add_namespace(place_ns, path='/places')
-api.add_namespace(review_ns, path='/')
+api.add_namespace(user_ns, path="/users")
+api.add_namespace(country_city_ns, path="/")
+api.add_namespace(amenity_ns, path="/amenities")
+api.add_namespace(place_ns, path="/places")
+api.add_namespace(review_ns, path="/")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

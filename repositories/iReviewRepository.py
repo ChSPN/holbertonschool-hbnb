@@ -4,25 +4,35 @@ import uuid
 
 class IReviewRepository(ABC):
     @abstractmethod
-    def create(self, review) -> bool: pass
+    def create(self, review) -> bool:
+        pass
 
     @abstractmethod
-    def update(self, review) -> bool: pass
+    def update(self, review) -> bool:
+        pass
 
     @abstractmethod
-    def delete(self, review_id: uuid) -> bool: pass
+    def delete(self, review_id: uuid) -> bool:
+        pass
 
     @abstractmethod
-    def get_by_id(self, review_id: uuid): pass
+    def get_by_id(self, review_id: uuid):
+        pass
 
     @abstractmethod
-    def get_by_user(self, user_id: uuid): pass
+    def get_by_user(self, user_id: uuid):
+        pass
 
     @abstractmethod
-    def get_all(self) -> list: pass
+    def get_all(self) -> list:
+        pass
 
     @abstractmethod
-    def get_by_place(self, id: uuid) -> list: pass
+    def get_by_place(self, id: uuid) -> list:
+        pass
 
     @abstractmethod
-    def exist(self, id: uuid, place_id: uuid = None, user_id: uuid = None) -> bool: pass
+    def exist(
+        self, id: uuid, place_id: uuid = None, user_id: uuid = None
+    ) -> bool:
+        pass

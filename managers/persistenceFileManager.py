@@ -4,16 +4,16 @@ from managers.jsonDecoder import JsonDecoder
 from managers.jsonEncoder import JsonEncoder
 
 
-class PersistenceFileManager():
+class PersistenceFileManager:
     def __get_file_contents(self, name) -> list[dict]:
-        if os.path.isfile(f'datas/{name}.json'):
-            with open(f'datas/{name}.json', 'r') as file:
+        if os.path.isfile(f"datas/{name}.json"):
+            with open(f"datas/{name}.json", "r") as file:
                 return json.load(file, cls=JsonDecoder)
         else:
             return []
 
     def __put_file_contents(self, name, raw):
-        with open(f'datas/{name}.json', 'w') as file:
+        with open(f"datas/{name}.json", "w") as file:
             json.dump(raw, file, cls=JsonEncoder, indent=4, sort_keys=True)
 
     def save(self, entity) -> bool:
@@ -36,7 +36,9 @@ class PersistenceFileManager():
             if not entities:
                 return None
             else:
-                entities = [n for n in entities if str(n.get('id')) == str(entity_id)]
+                entities = [
+                    n for n in entities if str(n.get("id")) == str(entity_id)
+                ]
                 if not entities or len(entities) == 0:
                     return None
                 else:
@@ -62,7 +64,9 @@ class PersistenceFileManager():
             if not entities:
                 entities = [entity]
             else:
-                entities = [n for n in entities if str(n.get('id')) != str(entity.id)]
+                entities = [
+                    n for n in entities if str(n.get("id")) != str(entity.id)
+                ]
                 if not entities or len(entities) == 0:
                     entities = [entity]
                 else:
@@ -79,7 +83,9 @@ class PersistenceFileManager():
             if not entities:
                 return False
             else:
-                entities = [n for n in entities if str(n.get('id')) != str(entity_id)]
+                entities = [
+                    n for n in entities if str(n.get("id")) != str(entity_id)
+                ]
                 self.__put_file_contents(name, entities)
                 return True
         except Exception:

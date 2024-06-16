@@ -4,16 +4,18 @@ from repositories.iReviewRepository import IReviewRepository
 
 
 class ReviewMockRepository(IReviewRepository):
-    def __init__(self, 
-                 create=bool or None, 
-                 get_by_place=[] or None,
-                 update:bool = None,
-                 delete:bool = None,
-                 get_by_id:Review = None,
-                 get_all:list[Review] = None, 
-                 get_by_user:list[Review] = None, 
-                 exist:bool = None,
-                 exists:bool = None):
+    def __init__(
+        self,
+        create=bool or None,
+        get_by_place=[] or None,
+        update: bool = None,
+        delete: bool = None,
+        get_by_id: Review = None,
+        get_all: list[Review] = None,
+        get_by_user: list[Review] = None,
+        exist: bool = None,
+        exists: bool = None,
+    ):
         super().__init__()
         self._create = create
         self._get_by_place = get_by_place
@@ -42,9 +44,11 @@ class ReviewMockRepository(IReviewRepository):
 
     def get_by_user(self, user_id: uuid):
         return self._get_by_user
-    
+
     def get_all(self) -> list[Review]:
         return self._get_all
 
-    def exist(self, id: uuid, place_id: uuid = None, user_id: uuid = None) -> bool:
+    def exist(
+        self, id: uuid, place_id: uuid = None, user_id: uuid = None
+    ) -> bool:
         return self._exists if place_id is not None else self._exist

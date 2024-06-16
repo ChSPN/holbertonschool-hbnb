@@ -14,20 +14,22 @@ from tests.userMockRepository import UserMockRepository
 
 
 class RepositoryMockManager(IRepositoryManager):
-    def __init__(self,
-                 amenityRepository:AmenityMockRepository = None,
-                 placeRepository:PlaceMockRepository = None,
-                 reviewRepository:ReviewMockRepository = None,
-                 userRepository:UserMockRepository = None,
-                 cityRepository:CityMockRepository = None,
-                 countryRepository:CountryMockRepository = None):
+    def __init__(
+        self,
+        amenityRepository: AmenityMockRepository = None,
+        placeRepository: PlaceMockRepository = None,
+        reviewRepository: ReviewMockRepository = None,
+        userRepository: UserMockRepository = None,
+        cityRepository: CityMockRepository = None,
+        countryRepository: CountryMockRepository = None,
+    ):
         self._amenityRepository = amenityRepository
         self._placeRepository = placeRepository
         self._reviewRepository = reviewRepository
         self._userRepository = userRepository
         self._cityRepository = cityRepository
         self._countryRepository = countryRepository
-    
+
     def amenityRepository(self) -> IAmenityRepository:
         return self._amenityRepository
 

@@ -9,5 +9,5 @@ class JsonEncoder(JSONEncoder):
             return str(o)
         elif isinstance(o, datetime.datetime):
             return o.isoformat()
-        else :
+        else:
             return o.to_dict()

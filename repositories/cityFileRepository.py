@@ -32,17 +32,20 @@ class CityFileRepository(ICityRepository):
     def get_by_country_code(self, code: str):
         countries = self._persistenceManager.get_all(Country)
         for country in countries:
-            if country.get('code') == code:
+            if country.get("code") == code:
                 cities = self._persistenceManager.get_all(City)
-                return [City(self._repositoryManager, city) for city in cities 
-                        if city.get('country_id') == country.get('id')]
+                return [
+                    City(self._repositoryManager, city)
+                    for city in cities
+                    if city.get("country_id") == country.get("id")
+                ]
         return None
 
     def get_all(self) -> list:
         cities = self._persistenceManager.get_all(City)
         if not cities:
             return []
-        else: 
+        else:
             return [City(self._repositoryManager, city) for city in cities]
 
     def exist(self, id: uuid, city_name: str = None) -> bool:
@@ -58,6 +61,10 @@ class CityFileRepository(ICityRepository):
                 if not cities or len(cities) == 0:
                     return False
                 else:
-                    return any(str(city.get('country_id')) == str(id) and city.get('name') == city_name for city in cities)
+                    return any(
+                        str(city.get("country_id")) == str(id)
+                        and city.get("name") == city_name
+                        for city in cities
+                    )
         except Exception:
             return False
