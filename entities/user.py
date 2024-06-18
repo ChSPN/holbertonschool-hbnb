@@ -47,6 +47,9 @@ class User:
         if user is None or user.id == self.id:
             """Valid email address."""
             return True
+        else:
+            """Email address already exists."""
+            return False
 
     @staticmethod
     def load(manager: IRepositoryManager, id: uuid = None):
